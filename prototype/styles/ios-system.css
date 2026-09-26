@@ -9,6 +9,18 @@
    Geometry only: every value flows from JS through the engine.
    ════════════════════════════════════════════════════════════════ */
 
+/* ════════════ STATUS BAR — fixed iOS-like system indicators ════════════ */
+.status__time { font-variant-numeric: tabular-nums; }
+.status__right { display: inline-flex; align-items: center; gap: 5px; }
+.status__signal { display: inline-flex; align-items: end; gap: 1px; height: 11px; }
+.status__signal i { display: block; width: 2px; border-radius: 2px; background: currentColor; opacity: .9; }
+.status__signal i:nth-child(1) { height: 3px; }
+.status__signal i:nth-child(2) { height: 5px; }
+.status__signal i:nth-child(3) { height: 7px; }
+.status__signal i:nth-child(4) { height: 9px; }
+.status__signal i:nth-child(5) { height: 11px; }
+.status__wifi { font-size: 17px; line-height: 10px; transform: rotate(-28deg); opacity: .9; }
+
 /* ════════════ CONTROL CENTER (swipe the top-right corner) ════════════ */
 .control {
   display: flex;
@@ -172,6 +184,12 @@
 }
 .flow__head b { font-size: 17px; font-weight: 700; }
 .flow__head span { font-size: 12.5px; color: var(--nv-text-2); }
+.flow__clear {
+  border: 0; border-radius: 999px; padding: 6px 11px;
+  color: var(--nv-accent); background: color-mix(in srgb, var(--nv-accent) 14%, transparent);
+  font: inherit; font-size: 11px; cursor: pointer;
+}
+.flow__clear:active { filter: brightness(.82); }
 .flow__group {
   font-size: 11px;
   font-weight: 700;

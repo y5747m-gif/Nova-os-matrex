@@ -143,6 +143,12 @@ export function deferEvent(id) {
   notify('events');
 }
 
+/** Clear the local NOVA notification feed without touching Android notifications. */
+export function clearEvents() {
+  state.events = [];
+  notify('events');
+}
+
 /* ── workspace helpers ─────────────────────────────────────────── */
 export function windowFor(appId) { return state.windows.find((w) => w.appId === appId); }
 

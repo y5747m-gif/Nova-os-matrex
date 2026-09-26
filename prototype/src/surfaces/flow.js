@@ -18,9 +18,15 @@ import {
 export function mountFlow(layer, ctx = {}) {
   const list = h('div', { class: 'flow__list' });
   const clock = h('div', { class: 'flow__clock' }, fmtTime());
+  const clear = h('button', {
+    class: 'flow__clear',
+    type: 'button',
+    onclick: () => ctx.onClear?.(),
+  }, 'مسح الكل');
   const head = h('div', { class: 'flow__head' },
     h('b', {}, 'مركز الإشعارات'),
     h('span', {}, fmtDate()),
+    clear,
   );
   const liveTag = h('span', { class: 'flow__live hidden' }, '● مباشر');
   head.append(liveTag);
