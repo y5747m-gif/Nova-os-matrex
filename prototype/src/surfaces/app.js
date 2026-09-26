@@ -1584,7 +1584,11 @@ export function buildApp(appId, ctx = {}) {
     close,
   );
 
-  const el = h('div', { class: 'app', dataset: { app: appId }, style: { '--nv-accent': meta.color } }, chrome, body);
+  const el = h('div', { class: 'app', dataset: { app: appId } }, chrome, body);
+  /* each app carries its own colour into the surface — but a CSS custom property
+     must go through setProperty: assigning it on the style object is silently
+     dropped by the browser, which is why this tint never reached the screen */
+  el.style.setProperty('--nv-accent', meta.color);
   return { el, meta, chrome, body };
 }
 

@@ -7,7 +7,7 @@
    NOVA_VERSION must match src/core/version.js and /VERSION.
    ══════════════════════════════════════════════════════════════ */
 
-const NOVA_VERSION = '1.0.1';
+const NOVA_VERSION = '1.1.0';
 const CACHE = `nova-shell-${NOVA_VERSION}`;
 
 const SHELL = [
@@ -22,8 +22,7 @@ const SHELL = [
   './styles/surfaces.css',
   './styles/fx.css',
   './styles/install.css',
-  './styles/ios-home.css',
-  './styles/ios-system.css',
+  './styles/look.css',
   './src/main.js',
   './src/core/dom.js',
   './src/core/icons.js',

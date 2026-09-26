@@ -36,7 +36,7 @@ Works on any phone, no build, no file transfer:
 
 What you get:
 
-- Full-screen window (no browser chrome), portrait, `theme_color #07080B`.
+- Full-screen window (no browser chrome), portrait, `theme_color #08090F`.
 - A real service worker: the app shell is cached, so it opens offline and updates itself
   (stale-while-revalidate for assets, network-first for the document).
 - An icon and name on the home screen, plus manifest shortcuts for `NOVA CORE` and `NOVA CANVAS`.

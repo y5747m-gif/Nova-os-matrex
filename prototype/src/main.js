@@ -140,13 +140,22 @@ window.addEventListener('pointerdown', () => initAudio(), { once: true });
 const ui = {
   home: mountHome(L.home, {
     toast,
+    emit: (k) => NovaMotion.emit(k),
     onOpenApp: (appId, el) => openApp(appId, el),
     onTask: () => openPanel('flow'),
+    onPanelClose: () => closePanel(true),
+    onAsk: () => {
+      if (state.surface === 'lock') return;
+      openPanel('core');
+      setTimeout(() => { try { ui.core.input.focus(); } catch {} }, 140);
+    },
     onAllApps: () => {
       if (state.surface === 'lock') return;
       openPanel('core');
-      setTimeout(() => { try { ui.core.showAll(); } catch { /* ignore */ } }, 80);
+      setTimeout(() => { try { ui.core.showAll(); } catch {} }, 80);
     },
+    onResume: () => runAction('resume'),
+    onMedia: () => runAction('media'),
   }),
   core: null,
   flow: null,
@@ -1300,7 +1309,7 @@ try {
   const cancelPress = () => { clearTimeout(pressTimer); pressTimer = null; };
   L.home.addEventListener('pointerdown', (e) => {
     if (state.surface !== 'home' || state.panel || appCtl) return;
-    if (e.target?.closest?.('button, input, .home__dock, .home__menu, .home__dots')) return;
+    if (e.target?.closest?.('button, input, .home__dock, .home__menu, .home__rail, .home__cards, .home__spaces')) return;
     sx = e.clientX; sy = e.clientY;
     cancelPress();
     pressTimer = setTimeout(() => {

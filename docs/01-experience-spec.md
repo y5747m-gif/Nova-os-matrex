@@ -34,29 +34,46 @@ Every surface is one of four *shapes* of the same object:
 - **Always-On Display** shows `time · battery · one primary event · up to two secondary events`,
   faded in by priority, and fades out anything unimportant.
 
-## 2. Dynamic Space (home)
+## 2. Dynamic Space (home) · **AURA**
 
-No icon grid. A calm animated background with only what matters now:
+No icon grid — and since 1.1 no paged grid either. The home is four calm bands, top to bottom,
+over the living wallpaper. The question comes first; the apps are one swipe away, never a hunt:
 
 ```
- 19:42                            72% ▮
-        أهلاً ياسين
-        الأربعاء، 21 سبتمبر
-   ┌───────────────────────────┐
-   │  ⏱  المهمة القادمة         │   ← live card (event, not widget)
-   │  اجتماع بعد 25 دقيقة      │
-   └───────────────────────────┘
-        ◯      ◯      ◯            ← context ring: apps likely needed now
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━   ← pull up: NOVA CORE
+ 19:42                      ┌ شخصي ┐
+ أهلاً ياسين               │ شغل  │   ← SPACES chips
+ الأربعاء، 21 سبتمبر       └ سفر ┘
+ ┌─────────────────────────────────────────┐
+ │ ✦  عايز تعمل إيه؟        NOVA FIND · اكتب أو قول │  ← the ask bar (hero)
+ └─────────────────────────────────────────┘
+ ┌──────────────┐ ┌──────────────┐
+ │ ⏱ محمد · الآن │ │ ▧ مساحتك     │  ← live cards (state, not widgets)
+ └──────────────┘ └──────────────┘
+ كل التطبيقات · 43
+   ◯    ◉    ◯    ◯    ◯    ◯    ◯      ← ONE orbit shelf, centred icon lifts
+ ┌─────────────────────────────────────────┐
+ │ 📞  💬  🌐  🎵              ⋯ الكل        │  ← glass dock + the door to everything
+ └─────────────────────────────────────────┘
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━        ← pull up: NOVA CORE
 ```
 
 Rules:
 
-- Cards are **not user-placed widgets**; they are suggestions produced by NOVA INTELLIGENCE
-  (time of day, calendar, commute, last workspace).
-- Ordering is explainable: long-press a card → "why am I seeing this?".
-- A card can be pinned, which freezes its position permanently.
-- The ring does not rotate endlessly; it responds to touch and settles (Orbit motion theme only).
+- **Intent over apps.** The ask bar is the primary object: tapping it opens NOVA FIND (CORE with
+  the search focused). Nothing on this screen asks "which app do you need?".
+- **Cards are not user-placed widgets.** They are produced by state: the next live event, your
+  resumable workspace (CANVAS), what is playing. They repaint when the store changes — an event
+  that arrives while media plays becomes an orb instead of a card (see §7).
+- **One shelf, not pages.** Every installed app sits on a single horizontal orbit shelf with
+  snap + centre emphasis; a horizontal drag scrolls it (the finger owns it, a flick settles it on
+  the nearest icon with a SNAP spring), and vertical travel still reaches CORE / FLOW. There are
+  no page dots and no page flip — paging was the grid wearing a nicer coat.
+- **SPACES filter the shelf.** شخصي · شغل · سفر (and الكل) narrow it to the apps that belong to
+  what you are doing. Inside the APK the chips hide: the real installed list is the universe.
+- **The dock is a favourite row**, not a home screen: the four you actually use (recents first,
+  real usage on the device) plus «الكل», which opens the CORE drawer.
+- Long-press the empty space → customize (الإعدادات). Long-press an icon → its context menu.
+- The centred icon is the morph source: opening an app grows from exactly where your finger is.
 
 ## 3. Opening an app — continuity
 

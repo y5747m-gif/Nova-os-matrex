@@ -5,10 +5,10 @@
    ══════════════════════════════════════════════════════════════ */
 
 :root {
-  --nova-orbit-void: #07080B;
-  --nova-mark-surface: #0A0B0F;
-  --nova-orbit-violet: #6C5CE7;
-  --nova-orbit-cyan: #22D3EE;
+  --nova-orbit-void: #08090F;
+  --nova-mark-surface: #101320;
+  --nova-orbit-violet: #7C6CFF;
+  --nova-orbit-cyan: #5EEAD4;
 }
 
 body[data-shell="web"] {
@@ -17,15 +17,15 @@ body[data-shell="web"] {
   background-image:
     radial-gradient(ellipse 42rem 34rem at 13% 10%, color-mix(in srgb, var(--nova-orbit-violet) 13%, transparent), transparent 72%),
     radial-gradient(ellipse 38rem 32rem at 88% 82%, color-mix(in srgb, var(--nova-orbit-cyan) 8.5%, transparent), transparent 70%),
-    linear-gradient(145deg, #090A10 0%, var(--nova-orbit-void) 52%, #080B10 100%);
+    linear-gradient(145deg, #0B0D16 0%, var(--nova-orbit-void) 52%, #0A0C14 100%);
   background-attachment: fixed;
 }
 
 body[data-mode="light"][data-shell="web"] {
   background-image:
-    radial-gradient(ellipse 40rem 30rem at 12% 8%, rgba(108, 92, 231, .1), transparent 72%),
-    radial-gradient(ellipse 34rem 28rem at 90% 86%, rgba(34, 211, 238, .1), transparent 70%),
-    linear-gradient(145deg, #F8F8FC 0%, #F2F4F8 55%, #F8FAFB 100%);
+    radial-gradient(ellipse 40rem 30rem at 12% 8%, rgba(124, 108, 255, .12), transparent 72%),
+    radial-gradient(ellipse 34rem 28rem at 90% 86%, rgba(94, 234, 212, .12), transparent 70%),
+    linear-gradient(145deg, #FAF8F4 0%, #F1EEE7 55%, #F7F5F1 100%);
 }
 
 .stage { position: relative; }

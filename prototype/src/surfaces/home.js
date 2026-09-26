@@ -1,26 +1,33 @@
 /* ════════════════════════════════════════════════════════════════
-   iOS HOME — الشبكة المُقسّمة صفحات + الشريط السفلي + قائمة السياق
-   Phase 1 of the iOS-style conversion (docs/01 §2): the rotating
-   ring (كرة التطبيقات) and the suggestion cards are gone. The home
-   surface is now —
-     · a 4×6 PAGED grid of every installed app: the full demo
-       catalogue in a browser, the live Kotlin NovaBridge list on
-       the device (0 apps must still render, quietly);
-     · a fixed glass Dock carrying the four most-used apps
-       (recents/defaults in a browser, real usage on the device);
-     · a long-press context menu — فتح · معلومات التطبيق · إزالة —
-       wired to the existing bridge: launchApp / openRealAppInfo /
-       uninstallRealApp (demo apps fall back to a toast).
-   Motion stays engine-owned: springs only — no hand-rolled frames,
-   no inline transitions, no easing curves in JS. Paging is
-   transform-driven and cooperative: it claims the pointer only
-   after a horizontal-dominant swipe, so vertical swipes keep
-   reaching the surface gesture system (CORE / FLOW).
+   NOVA HOME — the AURA Dynamic Space (docs/01 §2)
+
+   The old home was an icon grid: pages of tiles you hunt through.
+   AURA throws the grid away and answers NOVA's own question —
+   «ما الذي تريد فعله؟» — with four calm bands, top to bottom:
+
+     · home__sky    the clock, the greeting, the date and the
+                    SPACES chips (شخصي · شغل · سفر · الكل)
+     · home__ask    the hero: one pill that opens NOVA FIND, the
+                    intent bar is the primary object, not an icon
+     · home__cards  live cards produced by state — the next event,
+                    your workspace, what's playing — never widgets
+     · home__shelf  every app on ONE horizontal orbit shelf with
+                    snap + centre emphasis, and a glass dock for the
+                    four you actually use (＋ الكل → the CORE drawer)
+
+   Behaviour contract (main.js + tools/experience-check.mjs rely on it):
+     · .home__icon[data-app] buttons are the morph source rects
+     · long-press an icon → context menu (فتح · معلومات · إزالة)
+     · the surface API is unchanged: root/enter/refresh/cardEl/
+       anyCardRect/closeMenu/setHidden
+   Motion stays engine-owned: springs only — the shelf's centre
+   emphasis is a scroll-driven CSS variable, never a hand-rolled
+   frame loop.
    ════════════════════════════════════════════════════════════════ */
 
-import { h, clear } from '../core/dom.js';
+import { h, clear, fmtTime, fmtDate } from '../core/dom.js';
 import { icon } from '../core/icons.js';
-import { APPS, appMeta, state, allAppIds, appIconHTML } from '../core/store.js';
+import { APPS, appMeta, state, allAppIds, subscribe } from '../core/store.js';
 import NovaMotion from '../motion/motion.js';
 import { stagger as staggerMs } from '../motion/config.js';
 import {
@@ -28,42 +35,62 @@ import {
   openRealAppInfo, uninstallRealApp,
 } from '../core/launcher.js';
 
-const PER_PAGE = 24;                 /* 4 columns × 6 rows */
 const PRESS_MS = 500;                /* long-press → context menu */
-const TAP_SLOP = 10;                 /* px of travel that kills a held press */
-const SWIPE_PX = 12;                 /* px before the pager claims the pointer */
 const DOCK_DEFAULTS = ['phone', 'whatsapp', 'browser', 'music'];
 
-export function mountHome(layer, ctx) {
+/* ── SPACES — the same apps, grouped by what you're doing ─────── */
+const SPACES = [
+  { id: 'all',      label: 'الكل',  apps: null },
+  { id: 'personal', label: 'شخصي',  apps: ['whatsapp', 'phone', 'contacts', 'camera', 'gallery', 'music', 'video', 'podcasts', 'books', 'weather', 'health', 'fitness', 'social', 'games', 'store', 'wallet', 'smart', 'wear'] },
+  { id: 'work',     label: 'شغل',   apps: ['mail', 'notes', 'tasks', 'calendar', 'files', 'browser', 'meetings', 'translate', 'recorder', 'calc', 'clock', 'cloud', 'passwords', 'terminal'] },
+  { id: 'travel',   label: 'سفر',   apps: ['maps', 'weather', 'translate', 'camera', 'gallery', 'browser', 'music', 'wallet', 'files', 'clock'] },
+];
+const MAX_CARDS = 3;
+
+export function mountHome(layer, ctx = {}) {
+  /* ── the shell ─────────────────────────────────────────────── */
   const root = h('div', { class: 'home' });
-  const pagesEl = h('div', { class: 'home__pages' });
-  const track = h('div', { class: 'home__track' });
-  const dotsEl = h('div', { class: 'home__dots' });
+
+  const timeEl = h('div', { class: 'home__time' }, fmtTime());
+  const hello = h('h2', { class: 'home__hello' }, 'أهلاً ياسين');
+  const dateEl = h('p', { class: 'home__date' }, fmtDate());
+  const spacesEl = h('div', { class: 'home__spaces' });
+  const sky = h('div', { class: 'home__sky' }, timeEl, h('div', { class: 'home__sky-t' }, hello, dateEl), spacesEl);
+
+  const ask = h('button', {
+    class: 'home__ask', type: 'button', dataset: { nodrag: '1' },
+    onclick: () => ctx.onAsk?.(),
+  },
+    h('span', { class: 'home__ask-ico', html: icon('search', 'ico') }),
+    h('span', { class: 'home__ask-t' }, 'عايز تعمل إيه؟'),
+    h('span', { class: 'home__ask-hint' }, 'NOVA FIND — اكتب أو قول'),
+  );
+
+  const cardsEl = h('div', { class: 'home__cards' });
+
+  const shelfTitle = h('div', { class: 'home__shelf-title' }, h('b', {}, 'كل التطبيقات'), h('span', {}, ''));
+  const rail = h('div', { class: 'home__rail', dataset: { nodrag: '1' } });
+  const shelf = h('div', { class: 'home__shelf' }, shelfTitle, rail);
+
   const dockEl = h('div', { class: 'home__dock' });
-  pagesEl.append(track);
-  root.append(pagesEl, dotsEl, dockEl);
+
+  root.append(sky, ask, cardsEl, shelf, dockEl);
   layer.append(root);
 
-  /** appId → its best icon element: the grid first, then the always-visible Dock overwrites. */
+  /** appId → its best icon element: the shelf first, the dock overwrites. */
   const cardEls = new Map();
-  let pages = [[]];
-  let page = 0;                      /* committed page index */
-  let dotEls = [];
-  let tx = 0;                        /* live track translate, px — engine-written */
-  let press = null;                  /* the long-press currently armed */
-  let menu = null;                   /* the open context-menu element */
-  let menuAnchor = null;             /* the icon it belongs to */
-  let away = null;                   /* registered outside-tap closer */
-  let swallow = false;               /* this gesture's click must die */
-  let settle = null;                 /* the pager's settle-spring handle */
-  let drag = null;                   /* the active pager drag */
+  let railEls = [];
+  let space = 'all';
+  let press = null;
+  let menu = null;
+  let menuAnchor = null;
+  let away = null;
+  let swallow = false;
 
-  /* the real bridge list on the device — the catalogue in a browser */
-  const universe = () => (isNativeLauncher() ? realApps() : allAppIds());
+  const universe = () => (isNativeLauncher() ? realApps().map((a) => a.p) : allAppIds());
   const rtl = () => document.documentElement.dir === 'rtl';
-  const pageW = () => Math.max(1, pagesEl.getBoundingClientRect().width || 1);
 
-  /* ── one icon (grid or Dock) ─────────────────────────────────── */
+  /* ── one app icon (shelf or dock) ───────────────────────────── */
   function makeIcon(id) {
     const meta = appMeta(id);
     const btn = h('button', { class: 'home__icon', type: 'button', dataset: { app: id } });
@@ -80,14 +107,14 @@ export function mountHome(layer, ctx) {
   function face(id) {
     const meta = appMeta(id);
     const el = h('div', { class: 'home__icon-face' });
-    el.style.setProperty('--app-c', meta.color || '#6c5ce7');
+    el.style.setProperty('--app-c', meta.color || '#7c6cff');
     const uri = APPS[id] ? '' : realAppIcon(id);
     if (uri) el.append(h('img', { class: 'home__icon-img', src: uri, alt: '', draggable: 'false' }));
-    else el.innerHTML = appIconHTML(id, 'ico');
+    else el.innerHTML = icon(meta.icon, 'ico');
     return el;
   }
 
-  /* ── tap · long-press · context menu ─────────────────────────── */
+  /* ── tap · long-press · context menu ───────────────────────── */
   function bindPress(btn, id) {
     let fired = false;
     let t = null;
@@ -214,110 +241,175 @@ export function mountHome(layer, ctx) {
     return true;
   }
 
-  /* ── paging: 1:1 finger tracking + a spring to settle ─────────── */
-  function setDot(i) {
-    dotEls.forEach((d, n) => d.classList.toggle('home__dot--on', n === i));
-  }
-
-  function goTo(target, animate) {
-    const max = Math.max(0, pages.length - 1);
-    page = Math.max(0, Math.min(max, target));
-    setDot(page);
-    const sign = rtl() ? 1 : -1;
-    const to = sign * page * pageW();
-    if (settle) { settle.stop(); settle = null; }
-    if (!animate) {
-      tx = to;
-      track.style.transform = `translate3d(${to}px, 0, 0)`;
-      return;
-    }
-    const from = tx;
-    settle = NovaMotion.spring({
-      from, to, springName: 'SNAP',
-      onUpdate: (v) => {
-        tx = v;
-        track.style.transform = `translate3d(${v.toFixed(2)}px, 0, 0)`;
+  /* ── SPACES chips ──────────────────────────────────────────── */
+  function buildSpaces() {
+    const native = isNativeLauncher();
+    spacesEl.classList.toggle('hidden', native);
+    if (native) return;
+    spacesEl.replaceChildren(...SPACES.map((s) => h('button', {
+      class: 'home__space',
+      type: 'button',
+      'aria-pressed': String(space === s.id),
+      dataset: { space: s.id },
+      onclick: () => {
+        if (space === s.id) return;
+        space = s.id;
+        ctx.emit?.('tick');
+        refresh();
       },
-      onDone: () => { settle = null; },
-    });
+    }, s.label)));
   }
 
-  pagesEl.addEventListener('pointerdown', (e) => {
-    if (e.button !== undefined && e.button !== 0) return;
-    if (drag) return;
-    drag = {
-      id: e.pointerId,
-      x0: e.clientX, y0: e.clientY,
-      lx: e.clientX, lt: Date.now(), vx: 0,
-      W: pageW(), sign: rtl() ? 1 : -1, p0: 0,
-      engaged: false,
-    };
-  });
+  function spaceIds() {
+    const found = SPACES.find((s) => s.id === space);
+    const list = found && found.apps ? found.apps.filter((id) => APPS[id] || !isNativeLauncher()) : null;
+    const all = universe();
+    return list ? all.filter((id) => list.includes(id)) : all;
+  }
 
-  pagesEl.addEventListener('pointermove', (e) => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = e.clientX - drag.x0;
-    const dy = e.clientY - drag.y0;
-    if (!drag.engaged) {
-      if (Math.abs(dx) > TAP_SLOP || Math.abs(dy) > TAP_SLOP) press?.cancel();
-      const claim = pages.length > 1 && Math.abs(dx) > SWIPE_PX && Math.abs(dx) > Math.abs(dy);
-      if (!claim) return;                       /* vertical/diagonal travel stays with the system gestures */
-      press?.cancel();
-      closeMenu();
-      drag.engaged = true;
-      if (settle) { settle.stop(); settle = null; }
-      drag.W = pageW();
-      drag.sign = rtl() ? 1 : -1;
-      drag.p0 = tx / (drag.sign * drag.W);
-      try { pagesEl.setPointerCapture?.(e.pointerId); } catch { /* engine-less hosts */ }
+  /* ── the orbit shelf: snap + centre emphasis (scroll-driven) ── */
+  function paintCentre() {
+    const r = rail.getBoundingClientRect();
+    if (!r.width) return;
+    const mid = rtl() ? r.right - r.width / 2 : r.left + r.width / 2;
+    for (const el of railEls) {
+      const b = el.getBoundingClientRect();
+      const d = Math.abs((b.left + b.width / 2) - mid) / (r.width / 2);
+      el.style.setProperty('--c', Math.max(0, 1 - d).toFixed(3));
     }
-    e.stopPropagation();                        /* engaged: the pager owns this pointer */
-    e.preventDefault();
-    const now = Date.now();
-    const dt = Math.max(1, now - drag.lt);
-    drag.vx = (e.clientX - drag.lx) / dt;
-    drag.lx = e.clientX;
-    drag.lt = now;
-    let pos = drag.p0 + (drag.sign * dx) / drag.W;
-    const max = pages.length - 1;
-    if (pos < 0) pos *= 0.35;                   /* edge resistance */
-    else if (pos > max) pos = max + (pos - max) * 0.35;
-    tx = drag.sign * pos * drag.W;
-    track.style.transform = `translate3d(${tx.toFixed(2)}px, 0, 0)`;
-    setDot(Math.round(pos));
-  });
+  }
+  rail.addEventListener('scroll', paintCentre, { passive: true });
+  window.addEventListener('resize', paintCentre, { passive: true });
 
-  pagesEl.addEventListener('pointerup', (e) => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const d = drag;
-    drag = null;
-    press?.cancel();
-    if (!d.engaged) return;
-    const pos = d.p0 + (d.sign * (e.clientX - d.x0)) / d.W;
-    const lookahead = ((d.sign * d.vx) / d.W) * 140;   /* a flick carries one more page */
-    goTo(Math.round(pos + lookahead), true);
-  });
+  /* a vertical wheel over a horizontal shelf still scrolls the shelf */
+  for (const el of [rail, cardsEl]) {
+    el.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      el.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }, { passive: false });
+  }
 
-  pagesEl.addEventListener('pointercancel', (e) => {
-    if (!drag || e.pointerId !== drag.id) return;
-    const wasEngaged = drag.engaged;
-    drag = null;
-    if (wasEngaged) goTo(page, false);          /* give the pointer back, snap home */
-  });
+  /* 1:1 finger tracking for a horizontal scroller. The scroller owns its
+     pointer the moment the gesture is horizontal, so vertical travel keeps
+     reaching the surface gestures (CORE / FLOW). `snap` parks it on the
+     nearest icon with a spring; without it the cards just follow the finger. */
+  function dragScroll(el, { snap = false } = {}) {
+    let drag = null;
+    let settle = null;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.button !== undefined && e.button !== 0) return;
+      if (drag) return;
+      drag = {
+        id: e.pointerId, x0: e.clientX, sx: el.scrollLeft,
+        dir: rtl() ? -1 : 1, moved: false, lx: e.clientX, lt: Date.now(), vx: 0,
+      };
+    });
+    el.addEventListener('pointermove', (e) => {
+      const d = drag;
+      if (!d || e.pointerId !== d.id) return;
+      const dx = e.clientX - d.x0;
+      if (!d.moved) {
+        if (Math.abs(dx) < 6) return;
+        d.moved = true;
+        press?.cancel();               /* a horizontal claim kills the long-press */
+        closeMenu();
+        if (settle) { settle.stop(); settle = null; }
+        try { el.setPointerCapture?.(e.pointerId); } catch { /* engine-less hosts */ }
+      }
+      e.stopPropagation();
+      e.preventDefault();
+      const now = Date.now();
+      d.vx = (e.clientX - d.lx) / Math.max(1, now - d.lt);
+      d.lx = e.clientX;
+      d.lt = now;
+      el.scrollLeft = d.sx - d.dir * dx;
+    });
+    const endDrag = (e) => {
+      const d = drag;
+      if (!d || (e && e.pointerId !== d.id)) return;
+      drag = null;
+      if (!d.moved) return;
+      const from = el.scrollLeft;
+      let to = from + d.dir * d.vx * 180;          /* a flick carries it */
+      if (snap) {
+        const step = iconStep();
+        to = Math.round(to / step) * step;
+      }
+      if (settle) { settle.stop(); settle = null; }
+      settle = NovaMotion.spring({
+        from, to, springName: 'SNAP',
+        onUpdate: (v) => { el.scrollLeft = v; },
+        onDone: () => { settle = null; },
+      });
+    };
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  }
+  dragScroll(rail, { snap: true });
+  dragScroll(cardsEl, { snap: false });
+  /** centre-to-centre distance between two shelf icons, in scroll px. */
+  function iconStep() {
+    if (railEls.length < 2) return 1;
+    const a = railEls[0].getBoundingClientRect();
+    const b = railEls[1].getBoundingClientRect();
+    return Math.max(1, Math.abs((b.left + b.width / 2) - (a.left + a.width / 2)));
+  }
 
-  /* ── build / rebuild ─────────────────────────────────────────── */
+  /* ── live cards — produced by state, never user-placed widgets ─ */
+  function buildCards() {
+    const items = [];
+    const evt = state.events.find((e) => !e.deferred) || state.events[0];
+    if (evt) items.push({
+      color: evt.color, ico: evt.icon, title: evt.who, sub: evt.body,
+      tag: evt.quiet ? 'صامت' : 'الآن',
+      act: () => { closePanelIfOpen(); ctx.onOpenApp('whatsapp', cardEl('whatsapp')); },
+    });
+    items.push({
+      color: '#7c6cff', ico: 'layers', title: 'مساحتك', sub: `${state.lastWorkspace.length} تطبيقات جاهزة للاستئناف`,
+      tag: 'CANVAS', act: () => ctx.onResume?.(),
+    });
+    if (state.mediaPlaying) items.push({
+      color: '#6c5ce7', ico: 'music', title: 'Aurora Drift', sub: 'يشغل الآن · NOVA Sessions',
+      tag: 'وسائط', act: () => ctx.onMedia?.(),
+    });
+    cardsEl.replaceChildren(...items.slice(0, MAX_CARDS).map((c) => {
+      /* a CSS custom property must go through setProperty: assigning it on the
+         style object is silently dropped, and every card would lose its colour */
+      const faceEl = h('span', { class: 'home__card-face', html: icon(c.ico, 'ico ico--sm') });
+      faceEl.style.setProperty('--app-c', c.color);
+      return h('button', {
+        class: 'home__card', type: 'button', dataset: { nodrag: '1' }, onclick: c.act,
+      },
+        faceEl,
+        h('span', { class: 'home__card-t' },
+          h('b', {}, c.title),
+          h('span', {}, c.sub)),
+        h('small', { class: 'home__card-tag' }, c.tag),
+      );
+    }));
+  }
+
+  function closePanelIfOpen() {
+    if (state.panel) {
+      state.panel = null;
+      ctx.onPanelClose?.();
+    }
+  }
+
+  /* ── build / rebuild ───────────────────────────────────────── */
   function refresh() {
     closeMenu();
-    const ids = universe();
+    const ids = spaceIds();
 
-    /* the Dock: four most-used — recents first in a browser, real usage
+    /* the dock: four most-used — recents first in a browser, real usage
        on the device, the classic defaults filling the row. */
     let dockIds = [];
     if (isNativeLauncher()) {
       dockIds = (topRealApps(4) || []).slice(0, 4);
-      for (const id of realApps()) {
+      for (const a of realApps()) {
         if (dockIds.length >= 4) break;
-        if (!dockIds.includes(id)) dockIds.push(id);
+        if (!dockIds.includes(a.p)) dockIds.push(a.p);
       }
     } else {
       const seen = new Set();
@@ -332,43 +424,36 @@ export function mountHome(layer, ctx) {
       }
     }
 
-    pages = [];
-    for (let i = 0; i < ids.length; i += PER_PAGE) pages.push(ids.slice(i, i + PER_PAGE));
-    if (!pages.length) pages = [[]];
-
     cardEls.clear();
-    clear(track);
-    for (const group of pages) {
-      const el = h('div', { class: 'home__page' });
-      for (const id of group) el.append(makeIcon(id));
-      track.append(el);
+    clear(rail);
+    railEls = [];
+    for (const id of ids) {
+      const el = makeIcon(id);
+      rail.append(el);
+      railEls.push(el);
     }
 
-    clear(dotsEl);
-    dotEls = pages.map(() => {
-      const d = h('span', { class: 'home__dot' });
-      dotsEl.append(d);
-      return d;
-    });
-    dotsEl.classList.toggle('hidden', pages.length < 2);
+    const found = SPACES.find((s) => s.id === space);
+    shelfTitle.replaceChildren(
+      h('b', {}, found && found.id !== 'all' ? found.label : 'كل التطبيقات'),
+      h('span', {}, `${ids.length} تطبيق`),
+    );
 
     clear(dockEl);
-    for (const id of dockIds) dockEl.append(makeIcon(id));   /* Dock icons win cardEls */
-    dockEl.classList.toggle('hidden', dockIds.length === 0);
+    for (const id of dockIds) dockEl.append(makeIcon(id));   /* dock icons win cardEls */
+    dockEl.append(h('button', {
+      class: 'home__all', type: 'button', dataset: { nodrag: '1' }, title: 'كل التطبيقات',
+      onclick: () => ctx.onAllApps?.(),
+    }, h('span', { class: 'home__all-ico', html: icon('apps', 'ico ico--sm') }), h('span', {}, 'الكل')));
 
-    if (page > pages.length - 1) page = pages.length - 1;
-    if (page < 0) page = 0;
-    goTo(page, false);
+    buildCards();
+    paintCentre();
   }
 
   function enter() {
     closeMenu();
     refresh();
-    const pageEl = track.children[page];
-    const items = [
-      ...(pageEl ? pageEl.querySelectorAll('.home__icon') : []),
-      ...dockEl.querySelectorAll('.home__icon'),
-    ];
+    const items = [...railEls, ...dockEl.querySelectorAll('.home__icon')];
     if (!items.length) return;
     items.forEach((el) => { el.style.opacity = '0'; });
     NovaMotion.cascade({
@@ -380,7 +465,19 @@ export function mountHome(layer, ctx) {
     });
   }
 
+  /* the clock answers the minute, quietly */
+  setInterval(() => { timeEl.textContent = fmtTime(); }, 15000);
+
+  /* live cards follow the store: a new event, a resumed workspace or media
+     starting must repaint them without a full refresh() */
+  subscribe((s, what) => {
+    if (what === 'events' || what === 'windows' || what === 'focus') {
+      try { buildCards(); } catch { /* a detached surface must never throw */ }
+    }
+  });
+
   window.addEventListener('nova:launcher', () => { try { refresh(); } catch { /* ignore */ } });
+  buildSpaces();
   refresh();
 
   return {

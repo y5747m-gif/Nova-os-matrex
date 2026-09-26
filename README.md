@@ -10,10 +10,16 @@
 > واحد للنظام كله (spring physics + gesture-driven)، و**NOVA CORE** كمركز، و**NOVA FLOW**
 > كمركز أحداث، و**NOVA CANVAS** كمساحة ثنائية الأبعاد للتطبيقات المفتوحة، و**NOVA FIND**
 > للبحث الشامل، و**NOVA INTELLIGENCE** كذكاء يفهم حالة النظام.
-> من الإصدار 0.5: **كرة التطبيقات** حلقة حيّة تدور على كل التطبيقات، ودرج **كل التطبيقات**
-> يعرض الهاتف كاملًا (35 تطبيقًا في البروتوتايب / كل التطبيقات المثبّتة في الـAPK)، وتطبيق
-> **«الإعدادات»** غيّر منه **الخلفية** (10 مشاهد حيّة + صورة من جهازك + خلفية النظام على أندرويد)
-> والمظهر واللون والحركة والصوت — كله يُحفظ على الجهاز.
+> من الإصدار 1.1 (**شكل NOVA AURA الجديد**): مفيش شبكة أيقونات خالص. الشاشة الرئيسية
+> بقت **Dynamic Space** من أربع طبقات: الساعة والتحية و**مساحات** (شخصي · شغل · سفر)،
+> **شريط النية** «عايز تعمل إيه؟» اللي يفتح NOVA FIND، **بطاقات حيّة** مولّدة من حالة النظام،
+> و**رفّ مداري واحد** بكل التطبيقات (تمرير أفقي، الأيقونة اللي في النص بتكبر) + شريط سفلي
+> زجاجي لأربعة تطبيقات + زر **الكل**. الهوية الجديدة: خلفية حبر داكن + حافة ضوء + حبّات
+> دائرية وأيقونات سكويركل + زوج ألوان واحد (بنفسجي أزرق → نعناعي). الشكل القديم (شبكة صفحات
+> بأسلوب iOS) اتشال بالكامل، ودرج **كل التطبيقات** لسه موجود في NOVA CORE، وتطبيق **«الإعدادات»**
+> غيّر منه **الخلفية** (10 مشاهد حيّة + صورة من جهازك + خلفية النظام على أندرويد) والمظهر
+> واللون والحركة والصوت — كله يُحفظ على الجهاز. `npm run check:look` بيضمن إن الهوية دي
+> فعلًا موجودة على الشاشة.
 >
 > المستودع ده فيه حاجتين: **التوثيق الكامل** (تحت `docs/`) و**بروتوتايب تفاعلي** شغّال
 > (تحت `prototype/`) بيجرّب الحركة بالإصبع والفيزياء فعليًا في المتصفح.
@@ -33,7 +39,7 @@
 | `prototype/` | Zero-dependency interactive web prototype of the NOVA experience (Arabic RTL UI). |
 | `docs/07-launcher-stability.md` | Stable Android HOME behaviour, settings-only launcher change, recovery and device test checklist. |
 | `docs/06-install.md` | PWA install, APK build (CI + local), signing, self-update, known limits. |
-| `tools/` | Motion lint, class lint, spring physics tests, experience (golden-flow) checks, golden-curve generation + Kotlin port parity, the **shipping harness** (deploy-check: local deployability + live delivery verification + red/green selftest), icon + asset staging, version bump. |
+| `tools/` | Motion lint, class lint, **look check** (proves the AURA identity is really on screen), spring physics tests, experience (golden-flow) checks, golden-curve generation + Kotlin port parity, the **shipping harness** (deploy-check: local deployability + live delivery verification + red/green selftest), icon + asset staging, version bump. |
 | `package.json` | `npm run serve` + `npm run check`. |
 
 ## Install it on a phone
@@ -95,6 +101,10 @@ npm run serve          # python3 -m http.server 8080 --bind 0.0.0.0 --directory 
 No build step and no runtime dependencies — plain ES modules + CSS. (Google Fonts is the only
 network request, for IBM Plex Sans Arabic; the CSS falls back to system fonts offline.)
 
+`npm run check` runs every gate, including the two that guard the look: `check:classes` (a class
+the JS builds must exist in a stylesheet) and `check:look` (the AURA tokens, the orbit shelf and
+the ask bar are really rendered — the identity is a test, not a screenshot).
+
 ### Phone layout on a desktop
 
 Open `…/index.html?shell=app` to preview exactly what the APK shows: no device frame, no deck,
@@ -154,7 +164,10 @@ engine behaviour. No-JUnit variant: `os.nova.motion.GoldenMain`.
 ## The prototype covers
 
 - **Lock screen** with an adaptive clock and swipe-to-enter.
-- **Dynamic Space** home: greeting, live context, and cards that reorder by time of day.
+- **Dynamic Space** home (AURA, 1.1): clock + greeting + **SPACES** chips, an intent bar
+  («عايز تعمل إيه؟» → NOVA FIND), live cards produced by system state, and **one orbit shelf**
+  holding every app — no icon grid, no pages, no dots. The centred icon lifts; a horizontal drag
+  scrolls the shelf; the glass dock keeps your four + a door to «الكل».
 - **Continuity open**: the card you tap *morphs* into the app surface (shared-element, gesture-controllable).
 - **Interactive back** (drag from the right edge): the screen follows your finger, the previous surface peeks behind, release decides complete/cancel by position **and velocity**.
 - **NOVA CORE** (swipe up from the bottom): orbital launchpad with search, apps, people, files, actions —

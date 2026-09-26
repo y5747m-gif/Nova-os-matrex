@@ -180,51 +180,32 @@ export function initNovaSystems() {
 
 /* ── System Health Check ───────────────────────────────────── */
 export function systemHealthCheck() {
+  /* The engines are modules now, not loose globals on `window`, so probing
+     `typeof NovaTokens` only ever reported "missing". Ask the shell what it
+     actually mounted, and read the tokens off the live document. */
+  const S = (typeof window !== 'undefined' && window.NovaSystems) || {};
+  const token = (name) => (typeof document !== 'undefined'
+    ? getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+    : '');
   const checks = {
-    tokens: true,
-    glass: true,
-    shapes: true,
-    motion: true,
-    performance: true,
-    gesture: true,
-    text: true,
-    haptics: true,
-    audio: true,
-    find: true,
-    spaces: true,
-    security: true,
-    ai: true,
-    settings: true,
+    tokens:      !!S.tokens && !!token('--nv-accent'),
+    glass:       !!S.glass?.manager,
+    shapes:      !!S.shapes?.system,
+    motion:      !!S.motion,
+    performance: !!S.performance,
+    gesture:     !!S.gesture,
+    text:        !!S.textMotion,
+    haptics:     !!S.haptics,
+    audio:       !!S.audio,
+    find:        !!S.find,
+    spaces:      !!S.spaces,
+    security:    !!S.security,
+    ai:          !!S.ai,
+    settings:    !!S.settings,
   };
 
-  try {
-    // Check each system
-    checks.tokens = typeof NovaTokens !== 'undefined';
-    checks.glass = typeof GlassLevels !== 'undefined';
-    checks.shapes = typeof NovaOrb !== 'undefined';
-    checks.motion = typeof MotionAPI !== 'undefined';
-    checks.performance = typeof performanceManager !== 'undefined';
-    checks.gesture = typeof gestureEngine !== 'undefined';
-    checks.text = typeof textMotion !== 'undefined';
-    checks.haptics = typeof hapticsEngine !== 'undefined';
-    checks.audio = typeof audioEngine !== 'undefined';
-    checks.find = typeof findEngine !== 'undefined';
-    checks.spaces = typeof spacesManager !== 'undefined';
-    checks.security = typeof securityCenter !== 'undefined';
-    checks.ai = typeof aiEngine !== 'undefined';
-    checks.settings = typeof settingsManager !== 'undefined';
-  } catch (e) {
-    console.warn('NOVA Health Check failed:', e);
-  }
-
   const allPass = Object.values(checks).every(Boolean);
-  console.log('NOVA System Health:', allPass ? '✓ All systems nominal' : '✗ Issues detected', checks);
-  
+  console.log('NOVA System Health:', allPass ? '\u2713 All systems nominal' : '\u2717 Issues detected', checks);
+
   return { healthy: allPass, checks };
 }
-
-export default {
-  NovaOS,
-  initNovaSystems,
-  systemHealthCheck,
-};

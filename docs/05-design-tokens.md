@@ -1,21 +1,39 @@
 # 05 — Design Tokens
 
 > **ملخص عربي:** كل الألوان والمسافات والحواف والظلال والأصوات والهزّات كـ توكنات، عشان
-> النظام كله يبقى متسق. الوضع الداكن اسمه NOVA Dark، والفاتح NOVA Paper.
+> النظام كله يبقى متسق. الوضع الداكن اسمه NOVA Dark، والفاتح NOVA Paper. من الإصدار 1.1 الهوية اسمها **NOVA AURA**: خلفية حبر بدل الأسود،
+> حافة ضوء فوق كل سطح زجاجي، حبّات دائرية وأيقونات سكويركل، وزوج ألوان واحد (بنفسجي أزرق إلى نعناع).
 
-## 1. Color — NOVA Dark (default)
+## 1. Color — NOVA Dark (default) · **AURA**
+
+Since 1.1 the identity is **NOVA AURA**: ink instead of black, light edges instead of black
+shadows, pills + squircles, and one accent pair. The old near-black + neon pair is gone.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--nv-bg` | `#07080B` | Background / canvas void |
-| `--nv-surface` | `#101218` | Cards, panels |
-| `--nv-elevated` | `#171A22` | Raised windows, dialogs |
-| `--nv-line` | `rgba(235,241,255,.09)` | Hairlines, dividers |
-| `--nv-text` | `#F4F6FA` | Primary text |
-| `--nv-text-2` | `#9AA3B3` | Secondary text, metadata |
-| `--nv-text-3` | `#687080` | Disabled, hints |
-| `--nv-accent` | `#6C5CE7` | Primary accent (Nova Violet) |
-| `--nv-accent-2` | `#22D3EE` | Secondary accent (Signal Cyan) |
+| `--nv-bg` | `#08090F` | Ink base — the canvas void (blue-indigo, never `#000`) |
+| `--nv-bg-2` | `#0D0F17` | Second ink step (canvas, wallpaper base) |
+| `--nv-surface` | `#12151F` | Cards, panels |
+| `--nv-elevated` | `#181C29` | Raised windows, dialogs |
+| `--nv-line` | `rgba(226,232,255,.085)` | Hairlines, dividers |
+| `--nv-line-strong` | `rgba(226,232,255,.17)` | Stronger hairlines |
+| `--nv-text` | `#F3F5FA` | Primary text |
+| `--nv-text-2` | `#A6AEC2` | Secondary text, metadata |
+| `--nv-text-3` | `#6E7789` | Disabled, hints |
+| `--nv-edge` | `inset 0 1px 0 rgba(255,255,255,.07)` | The AURA light edge — every glass surface |
+| `--nv-glow` | accent-tinted | The only coloured glow (device halo, hero pills) |
+| `--nv-accent` | `#7C6CFF` | Primary accent (Nova Indigo) |
+| `--nv-accent-2` | `#5EEAD4` | Secondary accent (Nova Mint) |
+
+The four AURA moves, and why:
+
+1. **Ink, not black** — `#08090F` keeps a hint of indigo, so depth reads as *light falling on a
+   surface* instead of a hole in the screen.
+2. **Light edges** — surfaces are separated by a 1px top highlight (`--nv-edge`) plus an
+   accent-tinted glow (`--nv-glow`). Black slabs are gone.
+3. **Pills + squircles** — chips and bars are full pills (`--nv-r-chip: 999px`), cards 26px,
+   panels 38px, app icons 30% squircles with an inner radial gradient.
+4. **One aurora pair** — indigo → mint everywhere; amber stays for attention only.
 
 The NOVA signature is the **orbit mark**: a violet-to-cyan planet crossed by a luminous ring on
 near-black. Keep the mark intact and give it clear space; do not place it on a competing gradient
@@ -24,19 +42,32 @@ or crop the ring. `prototype/icons/nova-icon-source.png` is the master, and
 in the boot splash, setup welcome, app-launch ritual, settings/music identity, and desktop dock. The
 Android notification glyph is the monochrome vector at `android/app/src/main/res/drawable/ic_nova_stat.xml`.
 
-## 2. Color — NOVA Paper (light)
+## 2. Color — NOVA Paper (light) · **AURA**
 
-| Token | Value |
-| --- | --- |
-| `--nv-bg` | `#F5F6F8` |
-| `--nv-surface` | `#FFFFFF` |
-| `--nv-elevated` | `#FFFFFF` |
-| `--nv-text` | `#111318` |
-| `--nv-text-2` | `#5B6273` |
-| `--nv-accent` | `#5B4BE0` |
+Warm paper instead of cool grey — the accent glow reads as ink on paper.
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--nv-bg` | `#F6F4EF` | Paper base — warm, never white |
+| `--nv-bg-2` | `#EFEBE2` | Second paper step (canvas, wallpaper base) |
+| `--nv-surface` | `#FFFFFF` | Cards, panels, app chrome |
+| `--nv-elevated` | `#FFFFFF` | Raised windows, dialogs |
+| `--nv-edge` | `inset 0 1px 0 rgba(255,255,255,.9)` | The AURA light edge — inverted |
+| `--nv-glow` | accent-tinted (26% alpha) | The only coloured glow |
 
 Light mode is not "same shadows, darker text": in Paper, **shadows get tighter and motion gets
 *slightly* quicker** (×0.95) because contrast-based depth cues replace shadow-based ones.
+
+Paper also refuses to wash the icon faces out. Every squircle and card face that carries a white
+glyph is mixed toward ink instead of white, so a brand colour keeps its contrast on paper — the
+shelf icon, the live card, the CORE tile and the CORE result row all use the same deep recipe:
+
+```css
+/* a squircle or card face in NOVA Paper */
+background: linear-gradient(150deg,
+  color-mix(in srgb, var(--app-c) 74%, #1b1d27),
+  color-mix(in srgb, var(--app-c) 46%, #0b0d14));
+```
 
 ## 3. Semantic accents
 
@@ -57,40 +88,48 @@ Light mode is not "same shadows, darker text": in Paper, **shadows get tighter a
 
 | Token | Size | Weight | Tracking | Use |
 | --- | --- | --- | --- | --- |
-| `display` | 40 | 600 | -0.5 | Lock clock |
-| `title` | 26 | 600 | -0.3 | Greeting, screen titles |
-| `heading` | 19 | 600 | 0 | Card titles |
-| `body` | 16 | 400 | 0 | Content |
-| `label` | 14 | 500 | 0.1 | Buttons, chips |
-| `caption` | 12 | 500 | 0.4 | Metadata, status |
+AURA scale — bigger, tighter, more contrast:
+
+| `display` | 46 | 600 | -1.4 | Home clock |
+| `title` | 25 | 600 | -0.5 | Greeting, screen titles |
+| `heading` | 18 | 600 | -0.2 | Card titles, app chrome |
+| `body` | 15.5 | 400 | 0 | Content, the ask bar |
+| `label` | 13.5 | 500 | 0.1 | Buttons, chips, cards |
+| `caption` | 11.5 | 500 | 0.4 | Metadata, status, icon labels |
+
+The lock clock keeps its own size (76px, weight 200) — it is a poster, not a label.
 
 ## 5. Spacing, radii, strokes
 
 ```
 space: 4 · 8 · 12 · 16 · 20 · 24 · 32 · 48
-radius: chip 10 · card 22 · window 28 · panel 32 · orb 999
-stroke: hairline 1 (line color) · focus 2 (accent) · motion trace 1.5
+radius: chip 999 (pill) · card 26 · app 30% (squircle) · window 30 · panel 38 · orb 999
+stroke: hairline 1 (line color) · light edge 1 (top highlight) · focus 2 (accent) · motion trace 1.5
 blur:   gated, ≤ 12 px, ≤ 2 live layers   (see 02-motion-language.md §10)
 ```
 
 ## 6. Elevation & shadow
 
+AURA replaces the black slab with **light edge + accent glow** (see §1):
+
 | Level | Shadow | Notes |
 | --- | --- | --- |
 | `flat` | none | Background content |
-| `card` | `0 10px 28px rgba(0,0,0,.3)` + hairline | Dark; in Paper: `0 2px 10px rgba(17,19,24,.08)` |
-| `window` | `0 24px 64px rgba(0,0,0,.46)` | Floating world |
-| `panel` | `0 30px 80px rgba(0,0,0,.54)` | CORE / FLOW / CONTROL |
-| `dialog` | `0 30px 90px rgba(0,0,0,.6)` | + 45 % scrim below |
+| `card` | `0 10px 30px rgba(4,6,14,.45)` + `--nv-edge` + hairline | Paper: `0 2px 10px rgba(30,26,20,.07)` |
+| `window` | `0 28px 70px rgba(4,6,14,.58)` + `--nv-edge` | Floating world |
+| `panel` | `0 34px 90px rgba(4,6,14,.64)` + `--nv-edge` | CORE / FLOW / CONTROL |
+| `dialog` | `0 40px 110px rgba(4,6,14,.7)` + `--nv-edge` | + scrim below |
+| `halo` | `0 0 120px -30px var(--nv-glow)` | The device frame only — one coloured glow per screen |
 
 ## 7. Accent packs (mixable with motion themes)
 
 | Pack | Accent | Accent 2 |
 | --- | --- | --- |
-| Nova Violet *(default)* | `#6C5CE7` | `#22D3EE` |
+| Nova Indigo *(default, the AURA pair)* | `#7C6CFF` | `#5EEAD4` |
 | Aurora | `#4ADE80` | `#A78BFA` |
-| Orbit | `#F5A524` | `#6C5CE7` |
+| Orbit | `#F5A524` | `#7C6CFF` |
 | Liquid | `#22D3EE` | `#FF6B9A` |
+| Crystal | `#7DD3FC` | `#A78BFA` |
 | Neon | `#FF3D81` | `#00E5FF` |
 
 ## 8. Icon language

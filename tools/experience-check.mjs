@@ -474,27 +474,38 @@ check('wallpaper engine ships every scene', Object.keys(wallMod.WALLPAPERS).leng
 
 await goHome();
 {
-  const gridIcons = window.document.querySelectorAll('#layer-home .home__page .home__icon');
-  check('الشبكة تعرض كل التطبيقات كأيقونات iOS', gridIcons.length === appIds.length,
-    `${gridIcons.length}/${appIds.length}`);
+  /* the AURA shelf: every app on ONE orbit rail — no pages, no dots */
+  const railIcons = window.document.querySelectorAll('#layer-home .home__rail .home__icon');
+  check('\u0631\u0641\u0651 AURA \u064a\u0639\u0631\u0636 \u0643\u0644 \u0627\u0644\u062a\u0637\u0628\u064a\u0642\u0627\u062a \u0641\u064a \u0634\u0631\u064a\u0637 \u0645\u062f\u0627\u0631\u064a \u0648\u0627\u062d\u062f', railIcons.length === appIds.length,
+    railIcons.length + '/' + appIds.length);
   const dots = window.document.querySelectorAll('#layer-home .home__dots .home__dot');
-  check('صفحات الشبكة لها نقاط تنقل', dots.length >= 2, String(dots.length));
+  check('\u0645\u0641\u064a\u0634 \u0635\u0641\u062d\u0627\u062a \u0648\u0644\u0627 \u0646\u0642\u0627\u0637 \u2014 \u0627\u0644\u0631\u0641\u0651 \u0628\u064a\u062a\u0645\u0631\u0651\u0631 \u0628\u062f\u0644 \u0645\u0627 \u064a\u0642\u0644\u0628', dots.length === 0, String(dots.length));
   const dockIcons = window.document.querySelectorAll('#layer-home .home__dock .home__icon');
-  check('الشريط السفلي يحمل top-4', dockIcons.length === 4, String(dockIcons.length));
+  check('\u0627\u0644\u0634\u0631\u064a\u0637 \u0627\u0644\u0633\u0641\u0644\u064a \u064a\u062d\u0645\u0644 top-4', dockIcons.length === 4, String(dockIcons.length));
+  check('\u0634\u0631\u064a\u0637 \u0627\u0644\u0646\u064a\u0629 \u0647\u0648 \u0627\u0644\u0639\u0646\u0635\u0631 \u0627\u0644\u0623\u0633\u0627\u0633\u064a \u0644\u0644\u0634\u0627\u0634\u0629', !!window.document.querySelector('#layer-home .home__ask'));
+  check('\u0627\u0644\u0628\u0637\u0627\u0642\u0627\u062a \u0627\u0644\u062d\u064a\u0629 \u0645\u0648\u0644\u0651\u062f\u0629 \u0645\u0646 \u0627\u0644\u062d\u0627\u0644\u0629', window.document.querySelectorAll('#layer-home .home__card').length >= 2);
 }
-/* a horizontal swipe claims the pager and turns the page (RTL: the finger travels right) */
+/* a horizontal drag scrolls the orbit shelf and opens nothing */
 {
-  const first = window.document.querySelector('#layer-home .home__page .home__icon');
-  const swipe = (type, x, y) => first?.dispatchEvent(mkEv(type, { clientX: x, clientY: y, bubbles: true, cancelable: true, pointerId: 27 }));
+  const rail = window.document.querySelector('#layer-home .home__rail');
+  const first = window.document.querySelector('#layer-home .home__rail .home__icon');
+  const swipe = (type, x, y) => first && first.dispatchEvent(mkEv(type, { clientX: x, clientY: y, bubbles: true, cancelable: true, pointerId: 27 }));
+  const before = rail ? rail.scrollLeft : null;
   swipe('pointerdown', 120, 420);
-  for (let i = 1; i <= 5; i++) swipe('pointermove', 120 + i * 30, 421);
-  swipe('pointerup', 270, 421);
-  const dots2 = [...window.document.querySelectorAll('#layer-home .home__dots .home__dot')];
-  check('سحب أفقي يقلب الصفحة ويلوّن النقطة',
-    dots2.length >= 2 && dots2[1].classList.contains('home__dot--on'),
-    dots2.map((d) => (d.classList.contains('home__dot--on') ? 1 : 0)).join(''));
-  check('السحب الأفقي لا يفتح أي لوحات', N.state.panel === null && N.state.surface === 'home',
-    `${N.state.panel}|${N.state.surface}`);
+  for (let i = 1; i <= 5; i++) swipe('pointermove', 120 - i * 30, 421);
+  swipe('pointerup', -30, 421);
+  check('\u0627\u0644\u0633\u062d\u0628 \u0627\u0644\u0623\u0641\u0642\u064a \u064a\u0645\u0631\u0651\u0631 \u0627\u0644\u0631\u0641\u0651 \u0628\u062f\u0644 \u0645\u0627 \u064a\u0642\u0644\u0628 \u0635\u0641\u062d\u0629',
+    !!rail && rail.scrollLeft !== before, String(before) + ' \u2192 ' + String(rail ? rail.scrollLeft : 'none'));
+  check('\u0627\u0644\u0633\u062d\u0628 \u0627\u0644\u0623\u0641\u0642\u064a \u0644\u0627 \u064a\u0641\u062a\u062d \u0623\u064a \u0644\u0648\u0627\u064a\u062d', N.state.panel === null && N.state.surface === 'home',
+    String(N.state.panel) + '|' + N.state.surface);
+}
+/* the ask bar is a real door: intent first \u2192 NOVA FIND */
+{
+  window.document.querySelector('#layer-home .home__ask') && window.document.querySelector('#layer-home .home__ask').click();
+  await new Promise((r) => setTimeout(r, 400));
+  check('\u0634\u0631\u064a\u0637 \u0627\u0644\u0646\u064a\u0629 \u064a\u0641\u062a\u062d NOVA FIND', N.state.panel === 'core', String(N.state.panel));
+  N.closePanel();
+  await new Promise((r) => setTimeout(r, 300));
 }
 
 /* every app in the catalogue must open as a real surface */
@@ -916,7 +927,7 @@ check('manifest icons exist', ['icon-192.png', 'icon-512.png', 'icon-maskable-51
 check('fx.css is linked (the loaded stylesheets cover every surface)', fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').includes('styles/fx.css'));
 {
   const swSrc = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
-  const mustCache = ['./styles/fx.css', './styles/ios-home.css', './styles/ios-system.css', './src/core/launcher.js', './src/core/wallpaper.js', './src/motion/fx.js', './src/surfaces/setup.js', './src/surfaces/launch.js', './src/surfaces/dock.js'];
+  const mustCache = ['./styles/fx.css', './styles/look.css', './src/core/launcher.js', './src/core/wallpaper.js', './src/motion/fx.js', './src/surfaces/setup.js', './src/surfaces/launch.js', './src/surfaces/dock.js'];
   check('sw.js precaches every runtime module', mustCache.every((u) => swSrc.includes(`'${u}'`)),
     mustCache.filter((u) => !swSrc.includes(`'${u}'`)).join(',') || 'all present');
 }
