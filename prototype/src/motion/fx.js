@@ -22,7 +22,7 @@ function accentPalette() {
 
 function hexToRgb(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec((hex || '').trim());
-  if (!m) return [108, 92, 231];
+  if (!m) return [124, 108, 255];      /* Nova Indigo, docs/05 §1 */
   const n = parseInt(m[1], 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }

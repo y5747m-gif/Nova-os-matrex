@@ -17,6 +17,7 @@
      · nothing references the deleted iOS sheets any more
      · SPACES really filters the shelf, and «الكل» restores it
      · NOVA Paper (light) switches the base to warm paper
+     · the app icon is the AURA mark, and every brand mark shows it
 
    usage:  node tools/look-check.mjs
    ══════════════════════════════════════════════════════════════ */
@@ -171,6 +172,45 @@ check('NOVA Paper switches to warm paper',
 qa('#chips-mode .chip')[0]?.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
 await wait(200);
 check('back to NOVA Dark ink', tok('--nv-bg') === '#08090F', tok('--nv-bg'));
+
+/* ── 8 · the app icon is the AURA mark ───────────────────────── */
+const REPO = path.resolve(ROOT, '..');
+const icons = path.join(ROOT, 'icons');
+const exists = (f) => fs.existsSync(f);
+const iconScript = () => fs.readFileSync(path.join(REPO, 'tools', 'make-app-icon.sh'), 'utf8');
+
+for (const f of ['nova-icon-source.png', 'icon-192.png', 'icon-512.png',
+                 'icon-maskable-512.png', 'apple-touch-icon.png', 'favicon-32.png']) {
+  check(`icons/${f} exists`, exists(path.join(icons, f)));
+}
+for (const dpi of ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']) {
+  const dir = path.join(REPO, 'android/app/src/main/res', `mipmap-${dpi}`);
+  check(`android mipmap-${dpi} carries launcher + adaptive layers`,
+    ['ic_launcher.png', 'ic_launcher_round.png', 'ic_launcher_background.png',
+     'ic_launcher_foreground.png'].every((f) => exists(path.join(dir, f))));
+}
+check('the mark is drawn from the AURA values',
+  /INK='#08090F'/.test(iconScript()) && /INDIGO='#7C6CFF'/.test(iconScript())
+  && /MINT='#5EEAD4'/.test(iconScript()));
+check('the icon is a squircle plate (radius 30 %)', /R=\$\(\( S \* 30 \/ 100 \)\)/.test(iconScript()));
+check('the ring passes in front of the orb', /ring-front\.png/.test(iconScript())
+  && /ARC_FRONT=/.test(iconScript()));
+check('make-icons.sh still regenerates the set',
+  fs.readFileSync(path.join(REPO, 'tools', 'make-icons.sh'), 'utf8')
+    .includes('make-app-icon.sh'));
+const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.webmanifest'), 'utf8'));
+check('the PWA manifest paints AURA ink',
+  manifest.background_color === '#08090F' && manifest.theme_color === '#08090F',
+  `${manifest.background_color} / ${manifest.theme_color}`);
+const stat = fs.readFileSync(path.join(REPO, 'android/app/src/main/res/drawable/ic_nova_stat.xml'), 'utf8');
+check('the status-bar glyph is the same mark',
+  exists(path.join(REPO, 'android/app/src/main/res/drawable/ic_nova_stat.xml'))
+  /* far arc → orb → near arc, so the ring crosses the planet in one colour too */
+  && stat.indexOf('M3.8,13.4 A 8.2,2.9 0 0 1 20.2,13.4') < stat.indexOf('M12,6.6a5.4,5.4')
+  && stat.indexOf('M20.2,13.4 A 8.2,2.9 0 0 1 3.8,13.4') > stat.indexOf('M12,6.6a5.4,5.4'));
+check('every brand mark carries the icon as a squircle',
+  /\.deck__logo img[^}]*border-radius:\s*30%/s.test(look)
+  && /\.setup__logo\s*\{[^}]*border-radius:\s*30%/s.test(look));
 
 check('no runtime errors while booting the new look', errors.length === 0, errors.slice(0, 2).join('; '));
 console.error = origErr;

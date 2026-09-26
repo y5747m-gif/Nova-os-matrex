@@ -409,7 +409,7 @@ body[data-motion="reduced"] .wallpaper i { animation: none; }
   transition: transform 120ms linear, box-shadow 160ms linear;
   overflow: hidden;
 }
-.home__icon-face .ico { width: 26px; height: 26px; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .28)); }
+.home__icon-face .ico { width: 26px; height: 26px; filter: drop-shadow(0 2px 6px rgba(4, 6, 14, .3)); }
 .home__icon-img { width: 62%; height: 62%; border-radius: 24%; display: block; }
 .home__icon-label {
   font-size: var(--nv-text-caption);
@@ -1001,7 +1001,7 @@ body[data-motion="reduced"] .core__orbit .ring-line { animation: none; }
   display: block; width: 22px; height: 22px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+  box-shadow: 0 2px 6px rgba(4, 6, 14, .32);
   transition: margin var(--nv-fast) var(--nv-ease);
 }
 .set__toggle--on { background: linear-gradient(120deg, var(--nv-accent), var(--nv-accent-2)); border-color: transparent; }
@@ -1196,7 +1196,7 @@ body[data-motion="reduced"] .core__orbit .ring-line { animation: none; }
 .drag-ghost {
   position: fixed; z-index: 90;
   width: 96px; height: 96px; border-radius: 28px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .3);
+  box-shadow: 0 22px 60px rgba(4, 6, 14, .58), inset 0 1px 0 rgba(255, 255, 255, .3);
   pointer-events: none;
   will-change: transform;
   border: 2px solid rgba(255, 255, 255, .35);
@@ -1277,7 +1277,7 @@ body[data-motion="reduced"] .core__orbit .ring-line { animation: none; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 22px;
   background:
-    radial-gradient(120% 90% at 50% 6%, color-mix(in srgb, var(--nv-accent) 22%, #10131E) 0%, #06070C 66%);
+    radial-gradient(120% 90% at 50% 6%, color-mix(in srgb, var(--nv-accent) 22%, #12151F) 0%, #08090F 66%);
   color: var(--nv-text);
 }
 .boot__logo {
@@ -1291,7 +1291,7 @@ body[data-motion="reduced"] .core__orbit .ring-line { animation: none; }
   animation: boot-shimmer 1.6s linear infinite, boot-rise .7s cubic-bezier(.22, 1, .36, 1) both;
   filter: drop-shadow(0 8px 30px color-mix(in srgb, var(--nv-accent) 45%, transparent));
 }
-.boot__mark { width: 74px; height: 74px; border-radius: 24px; box-shadow: 0 16px 44px -12px var(--nv-glow); }
+.boot__mark { width: 74px; height: 74px; border-radius: 30%; box-shadow: 0 16px 44px -12px var(--nv-glow); }
 .boot__word { letter-spacing: .3em; }
 @keyframes boot-shimmer { to { background-position: -220% 0; } }
 @keyframes boot-rise { from { opacity: 0; transform: translateY(18px) scale(.96); } }
@@ -1341,7 +1341,7 @@ body[data-motion="reduced"] .boot__bar i { animation-duration: .2s; }
 .setup__body { display: flex; flex-direction: column; gap: 12px; overflow: auto; }
 .setup__logo {
   width: 74px; height: 74px; margin: 2px auto 0;
-  border-radius: 26px;
+  border-radius: 30%;
   display: grid; place-items: center;
   font-size: 30px; color: #fff;
   background: linear-gradient(140deg, var(--nv-accent), var(--nv-accent-2));
@@ -1539,14 +1539,26 @@ body[data-mode="light"] .deck {
 }
 
 .deck__brand { display: flex; align-items: center; gap: 13px; }
-.deck__logo {
-  width: 42px; height: 42px; display: grid; place-items: center;
-  border-radius: 14px;
-  background: linear-gradient(140deg, var(--nv-accent), var(--nv-accent-2));
-  color: #fff;
-  box-shadow: 0 10px 26px -8px var(--nv-glow), inset 0 1px 0 rgba(255, 255, 255, .3);
+/* the deck, the dock, the setup welcome, the music art and the launch
+   ritual all carry the app icon itself — the mark IS the brand, so it gets
+   the squircle treatment instead of a coloured tile behind it */
+.deck__logo,
+.dock__brand,
+.set__logo,
+.mu__art,
+.launch__brand-mark {
+  display: grid; place-items: center;
+  border-radius: 30%;
+  box-shadow: 0 10px 26px -8px var(--nv-glow);
 }
-.deck__logo img { width: 26px; height: 26px; border-radius: 8px; }
+.deck__logo { width: 42px; height: 42px; }
+.dock__brand { width: 34px; height: 34px; }
+.set__logo { width: 52px; height: 52px; }
+.mu__art { width: 74px; height: 74px; }
+.launch__brand-mark { width: 56px; height: 56px; }
+.deck__logo img, .dock__brand img, .set__logo img, .mu__art img, .launch__brand-mark img, .setup__logo img {
+  display: block; width: 100%; height: 100%; border-radius: 30%; object-fit: cover;
+}
 .deck__brand h1 { margin: 0; font-size: 19px; letter-spacing: .08em; }
 .deck__brand p { margin: 2px 0 0; font-size: 11.5px; color: var(--nv-text-2); }
 
@@ -1643,7 +1655,7 @@ body[data-shell="desktop"] .deck {
   width: 352px; height: auto; margin: 0;
   overflow-y: auto; overscroll-behavior: contain;
   z-index: 76; will-change: transform;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+  box-shadow: 0 30px 80px rgba(4, 6, 14, .58);
 }
 body[data-shell="desktop"][data-deck="closed"] .deck { pointer-events: none; }
 
