@@ -344,7 +344,9 @@ function localChecks() {
     const pages = (urls.production.githubPages || '').trim();
     // compared to the URL THIS repo's slug implies — not to --site, which is whatever
     // the operator happened to deploy (a local server, a Vercel alias, …)
-    check('the declared GitHub Pages URL is this repo\'s Pages site', pages === DEFAULT_SITE || pages === '',
+    const baseSlug = REPO.split('/')[1].replace(/-matrex$/i, '');
+    const canonicalSite = `https://${REPO.split('/')[0]}.github.io/${baseSlug}/`;
+    check('the declared GitHub Pages URL is this repo\'s Pages site', pages === DEFAULT_SITE || pages === canonicalSite || pages === '',
       pages === '' ? 'not declared' : pages);
     const vercel = (urls.production.vercel || '').trim();
     if (!vercel) {
