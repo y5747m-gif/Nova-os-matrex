@@ -24,6 +24,7 @@ const SHELL = [
   './styles/install.css',
   './styles/ios-home.css',
   './styles/ios-system.css',
+  './styles/matrix-refresh.css',
   './src/main.js',
   './src/core/dom.js',
   './src/core/icons.js',

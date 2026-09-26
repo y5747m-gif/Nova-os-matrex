@@ -28,10 +28,24 @@
 <link rel="stylesheet" href="styles/orbit-brand.css" />
 <link rel="stylesheet" href="styles/ios-home.css" />
 <link rel="stylesheet" href="styles/ios-system.css" />
+<link rel="stylesheet" href="styles/matrix-refresh.css" />
 </head>
 <body data-mode="dark" data-shell="web">
 
-<div class="stage">
+<header class="sitebar" aria-label="شريط NOVA الرئيسي">
+  <a class="sitebar__brand" href="./" aria-label="NOVA OS — الرئيسية">
+    <img src="icons/icon-192.png" alt="" />
+    <span><b>NOVA</b><small>EXPERIENCE OS</small></span>
+  </a>
+  <div class="sitebar__signal"><i></i><span>النظام متصل</span></div>
+  <nav class="sitebar__nav" aria-label="روابط سريعة">
+    <a href="#experience">التجربة</a>
+    <a href="#studio">مختبر النظام</a>
+    <button class="sitebar__key" type="button" title="افتح دليل الاختصارات">اضغط <kbd>?</kbd></button>
+  </nav>
+</header>
+
+<div class="stage" id="experience">
   <!-- ─────────────────────────  DEVICE  ───────────────────────── -->
   <div class="device-wrap">
     <div class="device" id="device">
@@ -82,16 +96,22 @@
 
   <!-- ─────────────────────────  CONTROL DECK  ───────────────────────── -->
   <aside class="deck" id="deck">
-    <header class="deck__brand">
+    <header class="deck__brand" id="studio">
       <div class="deck__logo" aria-hidden="true"><img src="icons/icon-192.png" alt="" /></div>
       <div>
-        <h1>NOVA OS</h1>
-        <p>A New Way to Use Your Phone</p>
+        <span class="deck__eyebrow">NOVA / CONTROL STUDIO</span>
+        <h1>مختبر التجربة</h1>
+        <p>غيّر النظام وشاهد النتيجة مباشرة</p>
       </div>
     </header>
 
+    <div class="deck__intro">
+      <span class="deck__intro-index">01</span>
+      <div><b>واجهة حيّة بالكامل</b><small>اختر طابع الحركة واللون، ثم جرّب المشاهد من اللوحة.</small></div>
+    </div>
+
     <section class="deck__group">
-      <h2>NOVA MOTION — ملف الحركة</h2>
+      <h2>NOVA MOTION <span>ملف الحركة</span></h2>
       <div class="chips" id="chips-profile"></div>
       <p class="deck__hint" id="profile-note"></p>
     </section>
