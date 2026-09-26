@@ -12,7 +12,7 @@
 values live in [`urls.json`](urls.json) (one place, machine-gated by `npm run check:deploy`);
 if this list and that file ever disagree, the file is right and CI is red:
 
-- <https://y5747m-gif.github.io/Nova-os/> — the currently working, durable GitHub Pages address.
+- <https://y5747m-gif.github.io/Nova-os-matrex/> — the currently working, durable GitHub Pages address.
   As of 2026-09-24 it is public and serving NOVA (the root forwards to `prototype/`). The repo is
   currently configured for the legacy `main`-branch Pages source; `.github/workflows/pages.yml`
   runs the quality gates and deploys `prototype/` only after a repo admin switches **Settings →
@@ -162,8 +162,8 @@ search locally. Deny anything and NOVA keeps working with the demo layer.
 
 The deck has **Install on your phone** → *تحميل على الهاتف*. The sheet:
 
-1. reads `https://api.github.com/repos/y5747m-gif/Nova-os/releases` (public, no token),
-2. finds the first release asset ending in `.apk`,
+1. reads `https://api.github.com/repos/y5747m-gif/Nova-os-matrex/releases` (public, no token),
+2. prefers the workflow's stable `nova-os-latest.apk` asset (then falls back to another `.apk`),
 3. shows its name and size,
 4. downloads it — inside the APK it uses `NovaSystem.download()` (cache → `FileProvider` →
    system installer) and shows progress as a notification; in a browser it simply downloads the file,
@@ -318,13 +318,13 @@ dashboard, nothing to trust but the deploy records GitHub already holds:
 
 ```bash
 # 1 · what GitHub thinks the site URL is
-gh api repos/y5747m-gif/Nova-os --jq .homepage
+gh api repos/y5747m-gif/Nova-os-matrex --jq .homepage
 #   → https://nova-os-topaz-rho.vercel.app        ← the dead link people keep clicking
 
 # 2 · what Vercel actually published, per deploy
-gh api "repos/y5747m-gif/Nova-os/deployments?per_page=12" --jq '.[].id' \
+gh api "repos/y5747m-gif/Nova-os-matrex/deployments?per_page=12" --jq '.[].id' \
   | while read -r id; do
-      gh api "repos/y5747m-gif/Nova-os/deployments/$id/statuses" \
+      gh api "repos/y5747m-gif/Nova-os-matrex/deployments/$id/statuses" \
         --jq '.[] | select(.state=="success") | "\(.environment_url)"' | head -1
     done
 #   → https://nova-fi7oxujwh-y5747m-gif.vercel.app, nova-30qlbewf2-…, nova-3vb2tri97-…
@@ -344,7 +344,7 @@ can restore that host or give the project a durable Production domain.
 **A stable fallback is live now.** GitHub Pages was provisioned after the earlier failed
 workflow check: the Pages API reports a public HTTPS site using the legacy `main`-branch source,
 and its latest build/deploy succeeded at 08:19 UTC on 2026-09-24. Opening
-<https://y5747m-gif.github.io/Nova-os/> redirects to `/prototype/` and serves NOVA. The old
+<https://y5747m-gif.github.io/Nova-os-matrex/> redirects to `/prototype/` and serves NOVA. The old
 Vercel URL is still dead, but the repository now has this durable public address. The
 `pages.yml` Actions workflow failed earlier at its self-heal step, before Pages existed; because
 the current source is still `main` rather than **GitHub Actions**, switch the source in Settings
@@ -369,7 +369,7 @@ before expecting that particular quality-gated workflow to deploy.
    field is the one copy of the address that a doc fix can never reach. For the already-live
    GitHub Pages fallback, set the Website field to the declared Pages URL:
    ```bash
-   gh api -X PATCH repos/y5747m-gif/Nova-os -f homepage="https://y5747m-gif.github.io/Nova-os/"
+   gh api -X PATCH repos/y5747m-gif/Nova-os-matrex -f homepage="https://y5747m-gif.github.io/Nova-os-matrex/"
    ```
    If you attach a durable Vercel Production domain instead, set `homepage` to that exact URL
    and add it to `docs/urls.json` → `production.vercel`. A repo Website field and a README that

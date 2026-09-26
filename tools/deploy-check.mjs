@@ -104,7 +104,7 @@ function repoSlug() {
     const m = url.match(/github\.com[:/]([^/]+\/[^/.]+)/);
     if (m) return m[1];
   } catch { /* no git here — fall through */ }
-  return opt('--repo', 'y5747m-gif/Nova-os');
+  return opt('--repo', 'y5747m-gif/Nova-os-matrex');
 }
 const REPO = repoSlug();
 const DEFAULT_SITE = `https://${REPO.split('/')[0]}.github.io/${REPO.split('/')[1]}/`;
@@ -570,7 +570,7 @@ async function selftest() {
     {
       name: 'docs/urls.json promotes a deployment URL to "production"',
       break: () => fs.writeFileSync(path.join(tmp, 'docs/urls.json'), JSON.stringify({
-        production: { githubPages: 'https://y5747m-gif.github.io/Nova-os/', vercel: 'https://nova-os-zephyr-moss.vercel.app/' },
+        production: { githubPages: 'https://y5747m-gif.github.io/Nova-os-matrex/', vercel: 'https://nova-os-zephyr-moss.vercel.app/' },
         retired: {},
       })),
       expect: 'durable production domain',

@@ -68,7 +68,7 @@ Two real paths — full guide in **`docs/06-install.md`**:
 
 **Deployment options:** these require the host setup below before the site is public:
 
-- **https://y5747m-gif.github.io/Nova-os/** — GitHub Pages, published by
+- **https://y5747m-gif.github.io/Nova-os-matrex/** — GitHub Pages, published by
   `.github/workflows/pages.yml` (runs the quality gates first; a broken prototype never deploys).
   The deploy job ends with the **shipping harness** (`tools/deploy-check.mjs --live`): the deploy
   only counts as done once the site is proven to answer with the pushed version. One-time setup:

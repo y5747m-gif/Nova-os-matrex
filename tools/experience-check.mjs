@@ -428,7 +428,7 @@ const releasePayload = [{
   tag_name: 'apk-latest',
   published_at: '2026-09-21T18:15:34Z',
   assets: [
-    { name: 'nova-os-latest.apk', size: 4518806, browser_download_url: 'https://github.com/y5747m-gif/Nova-os/releases/download/apk-latest/nova-os-latest.apk' },
+    { name: 'nova-os-latest.apk', size: 4518806, browser_download_url: 'https://github.com/y5747m-gif/Nova-os-matrex/releases/download/apk-latest/nova-os-latest.apk' },
     { name: 'SHA256SUMS.txt', size: 90, browser_download_url: 'https://example.invalid/sums' },
   ],
 }];

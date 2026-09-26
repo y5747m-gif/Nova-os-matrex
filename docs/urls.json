@@ -23,7 +23,7 @@
     "job is explaining the death); anywhere else the local gate turns RED."
   ],
   "production": {
-    "githubPages": "https://y5747m-gif.github.io/Nova-os/",
+    "githubPages": "https://y5747m-gif.github.io/Nova-os-matrex/",
     "vercel": "",
     "durableLabels": [],
     "$durableLabels": "first labels (without .vercel.app) that belong to THIS project's Production alias — for when the Vercel project is not spelled like the repo, list them here, e.g. [nova, nova-web]. Anything else shaped like <project>-<random>-<team> is a per-deployment URL and is refused."
