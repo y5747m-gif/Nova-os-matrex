@@ -9,7 +9,7 @@ import { h, clear, fmtTime } from './core/dom.js';
 import { icon } from './core/icons.js';
 import {
   APPS, appMeta, state, pushEvent, makeEvent, deferEvent, notify, rememberWindow, subscribe,
-  setDnd,
+  setDnd, clearEvents,
 } from './core/store.js';
 import {
   isNativeLauncher, launchRealApp,
@@ -100,8 +100,8 @@ function paintStatus() {
   const privacy = '<span class="dot" title="الكاميرا/الموقع مستخدَمان الآن">●</span>';
   const charge = batteryCharging ? icon('bolt', 'ico ico--sm') : icon('battery', 'ico ico--sm');
   statusbar.innerHTML = `
-    <span>${fmtTime()}</span>
-    <span class="status__right">${privacy}<span>${batteryPct}%</span>${charge}</span>`;
+    <span class="status__time">${fmtTime()}</span>
+    <span class="status__right">${privacy}<span class="status__signal" aria-label="قوة الإشارة"><i></i><i></i><i></i><i></i><i></i></span><span class="status__wifi" aria-label="Wi-Fi">⌁</span><span>${batteryPct}%</span>${charge}</span>`;
 }
 paintStatus();
 setInterval(paintStatus, 20000);
@@ -231,6 +231,7 @@ ui.flow = mountFlow(L.panels, {
     else openApp('gallery', ui.home.cardEl('gallery'));
   },
   onSecondary: (evt) => { deferEvent(evt.id); ui.flow.render(); toast('تم التأجيل — هيرجع في سياقه'); },
+  onClear: () => { clearEvents(); ui.flow.render(); toast('تم مسح أحداث NOVA'); },
 });
 
 ui.control = mountControl(L.panels, {
