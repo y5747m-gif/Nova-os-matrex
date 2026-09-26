@@ -15,6 +15,7 @@
   /* geometry — NOVA SHAPES per spec #10 */
   --nv-r-chip: 10px;
   --nv-r-card: 22px;
+  --nv-r-app: 23%;
   --nv-r-window: 28px;
   --nv-r-panel: 32px;
   --nv-r-orb: 999px;

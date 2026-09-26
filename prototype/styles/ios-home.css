@@ -60,7 +60,7 @@
 .home__icon-face {
   width: 56px;
   height: 56px;
-  border-radius: 23%;
+  border-radius: var(--nv-r-app, 23%);
   display: grid;
   place-items: center;
   position: relative;

@@ -48,7 +48,7 @@ import { playAppLaunch, canPlayLaunch, popRect } from './surfaces/launch.js';
 
 /* ── NOVA OS Complete System ─────────────────────────────────── */
 import { NovaTokens } from './nova/tokens/tokens.js';
-import { glassManager, GlassLevels, createGlass } from './nova/glass/glass.js';
+import { glassManager, GlassLevels, createGlass, selectAdaptiveGlassLevel } from './nova/glass/glass.js';
 import { shapeSystem, createShape, NovaOrb as NovaOrbShape } from './nova/shapes/shapes.js';
 import { NovaMotionAPI, TextMotion } from './nova/motion/motion-api.js';
 import { performanceManager, PerformanceModes } from './nova/performance/performance.js';
@@ -483,6 +483,7 @@ function launchNativeApp(pkg, sourceEl) {
 
 function finishApp(dir = 'home') {
   if (!appCtl) return;
+  appCtl.morph?.stop?.();
   const { el, appId } = appCtl;
   const target = rectForApp(appId);
   const to = screenRect();
@@ -521,6 +522,7 @@ let back = null;
 
 function backBegin(gesture) {
   if (!appCtl) return false;
+  appCtl.morph?.stop?.();
   const { el, host, appId } = appCtl;
   const target = rectForApp(appId);
   const to = screenRect();
@@ -1324,13 +1326,13 @@ try {
   performanceManager.startMonitoring();
   
   // Apply adaptive glass
-  const adaptiveGlass = performanceManager.selectAdaptiveGlassLevel();
+  const adaptiveGlass = selectAdaptiveGlassLevel();
   glassManager.setLevel(adaptiveGlass);
   glassManager.setAdaptive(true);
   
   // Listen for performance changes
   performanceManager.onChange((state) => {
-    const glassLevel = performanceManager.selectAdaptiveGlassLevel();
+    const glassLevel = selectAdaptiveGlassLevel();
     if (glassManager.adaptive) {
       glassManager.setLevel(glassLevel);
     }

@@ -126,7 +126,7 @@ export function morph({
       finished = false;
       api.release(to >= 0.5 ? 'commit' : 'cancel', 0);
     },
-    stop() { handle?.stop(); handle = null; },
+    stop() { handle?.stop(); handle = null; finished = true; },
     get isAnimating() { return !!handle && !handle.done; },
   };
   return api;
