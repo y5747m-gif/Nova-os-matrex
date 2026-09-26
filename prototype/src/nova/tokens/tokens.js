@@ -4,48 +4,55 @@
    elevation, glass, motion, haptics, sound — per spec #62
    ══════════════════════════════════════════════════════════════ */
 
+/* NOVA AURA — ink instead of black, light edges instead of black slabs,
+   pills + squircles, one indigo → mint pair. The CSS that actually paints
+   the shell lives in styles/tokens.css; this registry mirrors it. */
 export const Colors = {
   dark: {
-    bg: '#06070A',
-    bg2: '#0B0D13',
-    surface: '#0E1117',
-    elevated: '#171A22',
-    line: 'rgba(244,246,250,.08)',
-    lineStrong: 'rgba(244,246,250,.16)',
-    text: '#F4F6FA',
-    text2: '#8B93A1',
-    text3: '#5A6070',
-    scrim: 'rgba(4,5,8,.55)',
+    bg: '#08090F',
+    bg2: '#0D0F17',
+    surface: '#12151F',
+    elevated: '#181C29',
+    line: 'rgba(226,232,255,.085)',
+    lineStrong: 'rgba(226,232,255,.17)',
+    text: '#F3F5FA',
+    text2: '#A6AEC2',
+    text3: '#6E7789',
+    scrim: 'rgba(4,6,14,.6)',
+    edge: 'inset 0 1px 0 rgba(255,255,255,.07)',
+    glow: 'accent-tinted',
     glass: {
-      clear: 'rgba(23,26,34,.32)',
-      soft: 'rgba(23,26,34,.56)',
-      solid: 'rgba(23,26,34,.82)',
-      ultra: 'rgba(23,26,34,.64)',
+      clear: 'rgba(18,21,31,.42)',
+      soft: 'rgba(18,21,31,.62)',
+      solid: 'rgba(18,21,31,.86)',
+      ultra: 'rgba(18,21,31,.7)',
     }
   },
   light: {
-    bg: '#F4F6F8',
-    bg2: '#EDE9E2',
+    bg: '#F6F4EF',
+    bg2: '#EFEBE2',
     surface: '#FFFFFF',
     elevated: '#FFFFFF',
-    line: 'rgba(16,18,23,.08)',
-    lineStrong: 'rgba(16,18,23,.16)',
-    text: '#101217',
-    text2: '#5B6273',
-    text3: '#98907F',
-    scrim: 'rgba(30,24,16,.32)',
+    line: 'rgba(24,22,32,.09)',
+    lineStrong: 'rgba(24,22,32,.18)',
+    text: '#16181F',
+    text2: '#5C6270',
+    text3: '#8A8FA0',
+    scrim: 'rgba(40,34,26,.3)',
+    edge: 'inset 0 1px 0 rgba(255,255,255,.9)',
+    glow: 'accent-tinted (26% alpha)',
     glass: {
-      clear: 'rgba(255,255,255,.42)',
+      clear: 'rgba(255,255,255,.44)',
       soft: 'rgba(255,255,255,.68)',
-      solid: 'rgba(255,255,255,.88)',
-      ultra: 'rgba(255,255,255,.72)',
+      solid: 'rgba(255,255,255,.9)',
+      ultra: 'rgba(255,255,255,.74)',
     }
   },
   accent: {
-    violet: { main: '#6C5CE7', second: '#22D3EE' },
+    violet: { main: '#7C6CFF', second: '#5EEAD4' },
     aurora: { main: '#4ADE80', second: '#A78BFA' },
-    orbit: { main: '#F5A524', second: '#6C5CE7' },
-    liquid: { main: '#22D3EE', second: '#FF6B9A' },
+    orbit: { main: '#F5A524', second: '#7C6CFF' },
+    liquid: { main: '#5EEAD4', second: '#FF6B9A' },
     crystal: { main: '#7DD3FC', second: '#A78BFA' },
     neon: { main: '#FF3D81', second: '#00E5FF' },
   },
@@ -65,13 +72,15 @@ export const Typography = {
     mono: 'ui-monospace, "SF Mono", Menlo, monospace',
   },
   scale: {
-    display: { size: 40, weight: 600, tracking: -0.5, line: 1.1 },
-    title: { size: 26, weight: 600, tracking: -0.3, line: 1.2 },
-    heading: { size: 19, weight: 600, tracking: 0, line: 1.35 },
-    body: { size: 16, weight: 400, tracking: 0, line: 1.7 },
-    label: { size: 14, weight: 500, tracking: 0.1, line: 1.5 },
-    caption: { size: 12, weight: 500, tracking: 0.4, line: 1.4 },
+    display: { size: 46, weight: 600, tracking: -1.4, line: 1.05 },
+    title: { size: 25, weight: 600, tracking: -0.5, line: 1.2 },
+    heading: { size: 18, weight: 600, tracking: -0.2, line: 1.35 },
+    body: { size: 15.5, weight: 400, tracking: 0, line: 1.6 },
+    label: { size: 13.5, weight: 500, tracking: 0.1, line: 1.45 },
+    caption: { size: 11.5, weight: 500, tracking: 0.4, line: 1.4 },
   },
+  /* the lock clock is a poster, not a label */
+  lock: { size: 76, weight: 200, tracking: -2, line: 1 },
   arabic: {
     font: 'IBM Plex Sans Arabic',
     fallbacks: ['Cairo', 'Noto Sans Arabic'],
@@ -97,29 +106,34 @@ export const Spacing = {
 };
 
 export const Radius = {
-  chip: 10,
-  card: 22,
-  window: 28,
-  panel: 32,
+  chip: 999,
+  card: 26,
+  app: '30%',
+  window: 30,
+  panel: 38,
   orb: 999,
   tokens: {
-    card: 22,
-    window: 28,
-    panel: 32,
+    chip: 999,
+    card: 26,
+    app: '30%',
+    window: 30,
+    panel: 38,
     full: 9999,
   }
 };
 
 export const Elevation = {
   flat: 'none',
-  card: '0 4px 18px rgba(0,0,0,.35)',
-  window: '0 18px 50px rgba(0,0,0,.45)',
-  panel: '0 24px 70px rgba(0,0,0,.55)',
-  dialog: '0 30px 90px rgba(0,0,0,.6)',
+  /* every level carries --nv-edge (a 1px top highlight) — the black slab is gone */
+  card: '0 10px 30px rgba(4,6,14,.45) + inset 0 1px 0 rgba(255,255,255,.07)',
+  window: '0 28px 70px rgba(4,6,14,.58) + inset 0 1px 0 rgba(255,255,255,.07)',
+  panel: '0 34px 90px rgba(4,6,14,.64) + inset 0 1px 0 rgba(255,255,255,.07)',
+  dialog: '0 40px 110px rgba(4,6,14,.7) + inset 0 1px 0 rgba(255,255,255,.07)',
+  halo: '0 0 120px -30px accent glow — the device frame only',
   light: {
-    card: '0 2px 10px rgba(17,19,24,.08)',
-    window: '0 14px 38px rgba(17,19,24,.12)',
-    panel: '0 20px 48px rgba(17,19,24,.16)',
+    card: '0 2px 10px rgba(30,26,20,.07) + inset 0 1px 0 rgba(255,255,255,.9)',
+    window: '0 16px 40px rgba(30,26,20,.12) + inset 0 1px 0 rgba(255,255,255,.9)',
+    panel: '0 22px 54px rgba(30,26,20,.15) + inset 0 1px 0 rgba(255,255,255,.9)',
   }
 };
 

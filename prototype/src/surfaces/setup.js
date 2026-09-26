@@ -89,8 +89,8 @@ export function mountSetup(layer, ctx = {}) {
         h('h2', { class: 'setup__title' }, 'أهلاً بك في NOVA'),
         h('p', { class: 'setup__sub' }, 'طريقة جديدة لاستخدام هاتفك — لنحوّل NOVA إلى واجهة هاتفك الأساسية في أقل من دقيقة.'),
         h('div', { class: 'setup__list' },
-          row('layers', '#6c5ce7', 'لانشر كامل', 'شاشتك الرئيسية الجديدة بكل تطبيقاتك'),
-          row('actions', '#22d3ee', 'إشعارات هادئة', 'NOVA FLOW يجمعها كبطاقات بدل المقاطعة'),
+          row('layers', '#7c6cff', 'لانشر كامل', 'شاشتك الرئيسية الجديدة بكل تطبيقاتك'),
+          row('actions', '#5eead4', 'إشعارات هادئة', 'NOVA FLOW يجمعها كبطاقات بدل المقاطعة'),
           row('search', '#4ade80', 'ذكاء يفهمك', 'اقتراحات حسب وقتك واستخدامك'),
         ),
       );
@@ -101,7 +101,7 @@ export function mountSetup(layer, ctx = {}) {
       body.append(
         h('h2', { class: 'setup__title' }, 'اجعله بيتك'),
         h('p', { class: 'setup__sub' }, 'عيّن NOVA كتطبيق الشاشة الرئيسية الافتراضي — زر الهوم سيفتح NOVA دائمًا.'),
-        row('layers', '#6c5ce7', 'اللانشر الافتراضي', status.def ? 'NOVA هو بيتك الآن' : 'اضغط واختر NOVA من القائمة', badge(status.def)),
+        row('layers', '#7c6cff', 'اللانشر الافتراضي', status.def ? 'NOVA هو بيتك الآن' : 'اضغط واختر NOVA من القائمة', badge(status.def)),
       );
       foot.append(
         status.def ? cta('التالي', () => go(2)) : cta('تعيين كافتراضي', () => requestDefaultLauncher()),
@@ -113,7 +113,7 @@ export function mountSetup(layer, ctx = {}) {
       body.append(
         h('h2', { class: 'setup__title' }, 'إشعارات بلا مقاطعة'),
         h('p', { class: 'setup__sub' }, 'يقرأ NOVA FLOW إشعاراتك ليعرضها كبطاقات هادئة — لا شيء يطفو فوق ما تفعله.'),
-        row('actions', '#22d3ee', 'إذن الإشعارات', 'لتنبيهات NOVA نفسه', null),
+        row('actions', '#5eead4', 'إذن الإشعارات', 'لتنبيهات NOVA نفسه', null),
         row('shield', '#4ade80', 'وصول الإشعارات', status.notif ? 'يقرأ NOVA الأحداث الحية' : 'اختر NOVA وفعّل السماح', badge(status.notif)),
       );
       foot.append(

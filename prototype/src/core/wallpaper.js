@@ -13,16 +13,16 @@ const KEY_IMG = 'nova.wallpaper.img.v1';
 
 /* id → label / note / picker swatch. `native` needs the real phone. */
 export const WALLPAPERS = {
-  aurora:   { label: 'أورورا',   note: 'سديم NOVA الحي',        swatch: 'linear-gradient(145deg, #6c5ce7, #22d3ee 55%, #0b0d13)' },
+  aurora:   { label: 'أورورا',   note: 'سديم NOVA الحي',        swatch: 'linear-gradient(145deg, #7c6cff, #5eead4 55%, #0d0f17)' },
   sunset:   { label: 'غروب',     note: 'أزرق الليل ووهج المساء', swatch: 'linear-gradient(145deg, #ff9a5a, #ff5c8a 55%, #2a1230)' },
-  ocean:    { label: 'محيط',    note: 'أعماق زرقاء هادئة',      swatch: 'linear-gradient(145deg, #22d3ee, #2563eb 55%, #06213a)' },
+  ocean:    { label: 'محيط',    note: 'أعماق زرقاء هادئة',      swatch: 'linear-gradient(145deg, #5eead4, #4f46e5 55%, #0a1024)' },
   forest:   { label: 'غابة',     note: 'أوراق خضراء في الضباب',   swatch: 'linear-gradient(145deg, #4ade80, #14532d 60%, #07130c)' },
   desert:   { label: 'صحراء',   note: 'رمال ذهبية وقت الغروب',   swatch: 'linear-gradient(145deg, #f5a524, #b45309 55%, #2b1608)' },
   midnight: { label: 'منتصف الليل', note: 'هدوء عميق قرب الأسود', swatch: 'linear-gradient(145deg, #1e293b, #0f172a 55%, #05060a)' },
   neon:     { label: 'نيون',     note: 'وهج مدينة كهربائي',       swatch: 'linear-gradient(145deg, #ff3d81, #00e5ff 55%, #12041f)' },
   rose:     { label: 'وردي',     note: 'ضوء وردي ناعم',          swatch: 'linear-gradient(145deg, #ff6b9a, #f9a8d4 55%, #3b0d24)' },
-  mono:     { label: 'رمادي',    note: 'تدرّج راكد بلا لون',      swatch: 'linear-gradient(145deg, #9ca3af, #4b5563 55%, #0b0d13)' },
-  custom:   { label: 'صورتي',    note: 'صورة من جهازك',          swatch: 'linear-gradient(145deg, #a78bfa, #34d399 55%, #0b0d13)' },
+  mono:     { label: 'رمادي',    note: 'تدرّج راكد بلا لون',      swatch: 'linear-gradient(145deg, #9ca3af, #4b5563 55%, #0d0f17)' },
+  custom:   { label: 'صورتي',    note: 'صورة من جهازك',          swatch: 'linear-gradient(145deg, #a78bfa, #5eead4 55%, #0d0f17)' },
   system:   { label: 'النظام',   note: 'خلفية هاتفك الحقيقية',    swatch: 'linear-gradient(145deg, #334155, #0f172a)', native: true },
   dim:      { label: 'معتمة',    note: 'خلفية هاتفك بتعتيم',      swatch: 'linear-gradient(145deg, #1f2937, #05060a)', native: true },
 };

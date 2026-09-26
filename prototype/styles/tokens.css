@@ -130,7 +130,7 @@ body[data-mode="light"] {
 body[data-accent="violet"] { --nv-accent: #7c6cff; --nv-accent-2: #5eead4; }
 body[data-accent="aurora"] { --nv-accent: #4ade80; --nv-accent-2: #a78bfa; }
 body[data-accent="orbit"]  { --nv-accent: #f5a524; --nv-accent-2: #7c6cff; }
-body[data-accent="liquid"] { --nv-accent: #22d3ee; --nv-accent-2: #ff6b9a; }
+body[data-accent="liquid"] { --nv-accent: #5eead4; --nv-accent-2: #ff6b9a; }
 body[data-accent="crystal"]{ --nv-accent: #7dd3fc; --nv-accent-2: #a78bfa; }
 body[data-accent="neon"]   { --nv-accent: #ff3d81; --nv-accent-2: #00e5ff; }
 

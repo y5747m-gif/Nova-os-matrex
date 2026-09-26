@@ -39,7 +39,7 @@ body[data-mode="light"] .wallpaper::before {
   position: absolute; inset: 0; z-index: 100;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 22px;
-  background: radial-gradient(120% 90% at 50% 10%, #141824 0%, #07080b 62%);
+  background: radial-gradient(120% 90% at 50% 10%, #12151f 0%, #08090f 62%);
   color: var(--nv-text);
 }
 .boot__logo {
@@ -367,10 +367,10 @@ body[data-wallpaper="system"] .fx { opacity: .5; }
    ══════════════════════════════════════════════════════════════ */
 
 body[data-wallpaper="aurora"] {
-  --nv-wall-1: #6c5ce7;
-  --nv-wall-2: #22d3ee;
+  --nv-wall-1: #7c6cff;
+  --nv-wall-2: #5eead4;
   --nv-wall-3: #ff6b9a;
-  --nv-wall-base: radial-gradient(130% 90% at 20% 0%, #151233 0%, #07080b 62%);
+  --nv-wall-base: radial-gradient(130% 90% at 20% 0%, #151233 0%, #08090f 62%);
 }
 body[data-wallpaper="sunset"] {
   --nv-wall-1: #ff9a5a;
@@ -379,7 +379,7 @@ body[data-wallpaper="sunset"] {
   --nv-wall-base: linear-gradient(175deg, #2a1230 0%, #14081c 55%, #0b0610 100%);
 }
 body[data-wallpaper="ocean"] {
-  --nv-wall-1: #22d3ee;
+  --nv-wall-1: #5eead4;
   --nv-wall-2: #2563eb;
   --nv-wall-3: #34d399;
   --nv-wall-base: linear-gradient(180deg, #06213a 0%, #071022 60%, #050810 100%);
@@ -418,7 +418,7 @@ body[data-wallpaper="mono"] {
   --nv-wall-1: #9ca3af;
   --nv-wall-2: #4b5563;
   --nv-wall-3: #e5e7eb;
-  --nv-wall-base: linear-gradient(180deg, #14161c 0%, #0b0d13 55%, #06070b 100%);
+  --nv-wall-base: linear-gradient(180deg, #12151f 0%, #0d0f17 55%, #08090f 100%);
 }
 
 /* light paper mode keeps every scene readable */
@@ -428,7 +428,7 @@ body[data-mode="light"][data-wallpaper] {
 
 /* «صورتي» — the user's own photo, with a soft living veil */
 body[data-wallpaper="custom"] .wallpaper {
-  background: var(--nv-wall-img, none) center / cover no-repeat, #0b0d13;
+  background: var(--nv-wall-img, none) center / cover no-repeat, #0d0f17;
 }
 body[data-wallpaper="custom"] .wallpaper i { opacity: .16; }
 body[data-wallpaper="custom"] .wallpaper::after {

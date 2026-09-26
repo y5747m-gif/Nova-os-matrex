@@ -34,10 +34,13 @@ gradle testDebugUnitTest  # NovaMotionGoldenTest + SpringTest
 
 ```kotlin
 @Test fun `tokens match spec`() {
-    assertEquals("#06070A", NovaColors.Dark.bg)
-    assertEquals("#0E1117", NovaColors.Dark.surface)
-    assertEquals("#F4F6FA", NovaColors.Dark.text)
-    assertEquals("#F4F6F8", NovaColors.Light.bg)
+    assertEquals("#08090F", NovaColors.Dark.bg)      // AURA ink, never #000
+    assertEquals("#0D0F17", NovaColors.Dark.bg2)
+    assertEquals("#12151F", NovaColors.Dark.surface)
+    assertEquals("#F3F5FA", NovaColors.Dark.text)
+    assertEquals("#F6F4EF", NovaColors.Light.bg)
+    assertEquals("#7C6CFF", NovaColors.Accent.violet) // Nova Indigo
+    assertEquals("#5EEAD4", NovaColors.Accent.violet2) // Nova Mint
 }
 
 @Test fun `glass levels have correct blur`() {

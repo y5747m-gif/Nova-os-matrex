@@ -14,9 +14,9 @@ function accentPalette() {
   try {
     const cs = getComputedStyle(document.documentElement);
     const pick = (n, fb) => (cs.getPropertyValue(n) || '').trim() || fb;
-    return [pick('--nv-accent', '#6c5ce7'), pick('--nv-accent-2', '#22d3ee'), pick('--nv-bloom', '#ff6b9a')];
+    return [pick('--nv-accent', '#7c6cff'), pick('--nv-accent-2', '#5eead4'), pick('--nv-bloom', '#ff6b9a')];
   } catch {
-    return ['#6c5ce7', '#22d3ee', '#ff6b9a'];
+    return ['#7c6cff', '#5eead4', '#ff6b9a'];
   }
 }
 

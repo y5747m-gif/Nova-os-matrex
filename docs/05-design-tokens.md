@@ -35,12 +35,14 @@ The four AURA moves, and why:
    panels 38px, app icons 30% squircles with an inner radial gradient.
 4. **One aurora pair** — indigo → mint everywhere; amber stays for attention only.
 
-The NOVA signature is the **orbit mark**: a violet-to-cyan planet crossed by a luminous ring on
-near-black. Keep the mark intact and give it clear space; do not place it on a competing gradient
-or crop the ring. `prototype/icons/nova-icon-source.png` is the master, and
-`bash tools/make-icons.sh` regenerates the PWA and Android density variants. The same mark appears
-in the boot splash, setup welcome, app-launch ritual, settings/music identity, and desktop dock. The
-Android notification glyph is the monochrome vector at `android/app/src/main/res/drawable/ic_nova_stat.xml`.
+The NOVA signature is the **orbit mark**: an indigo→mint planet crossed by a luminous ring on ink.
+Keep the mark intact and give it clear space; do not place it on a competing gradient or crop the
+ring. `prototype/icons/nova-icon-source.png` is the 1024² master, and
+`bash tools/make-app-icon.sh` (`make-icons.sh` is the same command) redraws it as vectors — so it
+stays sharp from a 32px favicon to a 1024px store icon — and writes every PWA and Android variant,
+including the adaptive layers. The same mark appears in the boot splash, setup welcome,
+app-launch ritual, settings/music identity, and desktop dock. The Android notification glyph is the
+monochrome vector at `android/app/src/main/res/drawable/ic_nova_stat.xml`.
 
 ## 2. Color — NOVA Paper (light) · **AURA**
 
@@ -128,13 +130,16 @@ AURA replaces the black slab with **light edge + accent glow** (see §1):
 | Nova Indigo *(default, the AURA pair)* | `#7C6CFF` | `#5EEAD4` |
 | Aurora | `#4ADE80` | `#A78BFA` |
 | Orbit | `#F5A524` | `#7C6CFF` |
-| Liquid | `#22D3EE` | `#FF6B9A` |
+| Liquid | `#5EEAD4` | `#FF6B9A` |
 | Crystal | `#7DD3FC` | `#A78BFA` |
 | Neon | `#FF3D81` | `#00E5FF` |
 
 ## 8. Icon language
 
 - 24 dp grid, 1.8 dp stroke, round caps, one continuous line where possible.
+- In-app icons are squircles (30 %) tinted with the app's own colour; in NOVA Paper those tints
+  are mixed toward ink so a white glyph keeps its contrast.
+- The **app icon** is the orbit mark: `bash tools/make-app-icon.sh`.
 - Container is a geometric shape with deliberate inner negative space (not a filled square).
 - Optical corrections at 16/20 dp; no two icons share a silhouette.
 - Animated icon transitions use NOVA MOTION `FAST` + `SNAP` spring only.

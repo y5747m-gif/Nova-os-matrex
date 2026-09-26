@@ -124,7 +124,7 @@ object NovaShapeEngine {
 fun NovaOrb(
     state: OrbState = OrbState.Idle,
     size: Dp = 64.dp,
-    color: Color = Color(0xFF6C5CE7),
+    color: Color = Color(0xFF7C6CFF),
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -163,7 +163,7 @@ fun NovaRing(
     progress: Float = 0.72f,
     size: Dp = 48.dp,
     thickness: Dp = 3.dp,
-    color: Color = Color(0xFF6C5CE7),
+    color: Color = Color(0xFF7C6CFF),
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -185,7 +185,7 @@ fun NovaRing(
 fun NovaCapsule(
     size: Dp = 48.dp,
     ratio: Float = 2.5f,
-    color: Color = Color(0xFF6C5CE7),
+    color: Color = Color(0xFF7C6CFF),
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -203,7 +203,7 @@ fun NovaCapsule(
 @Composable
 fun NovaCrystal(
     size: Dp = 48.dp,
-    color: Color = Color(0xFF6C5CE7),
+    color: Color = Color(0xFF7C6CFF),
     modifier: Modifier = Modifier
 ) {
     Box(

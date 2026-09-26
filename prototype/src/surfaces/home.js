@@ -370,7 +370,7 @@ export function mountHome(layer, ctx = {}) {
       tag: 'CANVAS', act: () => ctx.onResume?.(),
     });
     if (state.mediaPlaying) items.push({
-      color: '#6c5ce7', ico: 'music', title: 'Aurora Drift', sub: 'يشغل الآن · NOVA Sessions',
+      color: '#7c6cff', ico: 'music', title: 'Aurora Drift', sub: 'يشغل الآن · NOVA Sessions',
       tag: 'وسائط', act: () => ctx.onMedia?.(),
     });
     cardsEl.replaceChildren(...items.slice(0, MAX_CARDS).map((c) => {

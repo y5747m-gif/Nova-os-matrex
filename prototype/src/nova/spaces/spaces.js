@@ -8,10 +8,10 @@
 import NovaMotion from '../../motion/motion.js';
 
 export const DefaultSpaces = [
-  { id: 'work', name: 'العمل', icon: 'briefcase', color: '#6C5CE7', apps: [] },
+  { id: 'work', name: 'العمل', icon: 'briefcase', color: '#7C6CFF', apps: [] },
   { id: 'personal', name: 'شخصي', icon: 'person', color: '#FF6B9A', apps: [] },
   { id: 'study', name: 'الدراسة', icon: 'book', color: '#4ADE80', apps: [] },
-  { id: 'travel', name: 'السفر', icon: 'map', color: '#22D3EE', apps: [] },
+  { id: 'travel', name: 'السفر', icon: 'map', color: '#5EEAD4', apps: [] },
   { id: 'gaming', name: 'الألعاب', icon: 'game', color: '#F5A524', apps: [] },
 ];
 
@@ -56,7 +56,7 @@ class NovaSpacesManager {
       id,
       name,
       icon: options.icon || 'layers',
-      color: options.color || '#6C5CE7',
+      color: options.color || '#7C6CFF',
       apps: [],
       files: [],
       people: [],

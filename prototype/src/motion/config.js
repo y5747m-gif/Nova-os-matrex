@@ -70,11 +70,12 @@ export const THEMES = {
   },
 };
 
+/* AURA packs — the house pair is Nova Indigo → Nova Mint (docs/05 §7) */
 export const ACCENTS = {
-  violet: { label: 'Nova Violet', accent: '#6c5ce7', accent2: '#22d3ee' },
+  violet: { label: 'Nova Indigo', accent: '#7c6cff', accent2: '#5eead4' },
   aurora: { label: 'Aurora', accent: '#4ade80', accent2: '#a78bfa' },
-  orbit:  { label: 'Orbit',  accent: '#f5a524', accent2: '#6c5ce7' },
-  liquid: { label: 'Liquid', accent: '#22d3ee', accent2: '#ff6b9a' },
+  orbit:  { label: 'Orbit',  accent: '#f5a524', accent2: '#7c6cff' },
+  liquid: { label: 'Liquid', accent: '#5eead4', accent2: '#ff6b9a' },
   neon:   { label: 'Neon',   accent: '#ff3d81', accent2: '#00e5ff' },
 };
 

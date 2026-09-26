@@ -12,36 +12,36 @@ import androidx.compose.ui.unit.sp
 
 object NovaColors {
     object Dark {
-        val bg = Color(0xFF06070A)
-        val bg2 = Color(0xFF0B0D13)
-        val surface = Color(0xFF0E1117)
-        val elevated = Color(0xFF171A22)
-        val line = Color(0x14F4F6FA)
-        val lineStrong = Color(0x29F4F6FA)
-        val text = Color(0xFFF4F6FA)
-        val text2 = Color(0xFF8B93A1)
-        val text3 = Color(0xFF5A6070)
-        val scrim = Color(0x8C040508)
+        val bg = Color(0xFF08090F)
+        val bg2 = Color(0xFF0D0F17)
+        val surface = Color(0xFF12151F)
+        val elevated = Color(0xFF181C29)
+        val line = Color(0x16E2E8FF)
+        val lineStrong = Color(0x2BE2E8FF)
+        val text = Color(0xFFF3F5FA)
+        val text2 = Color(0xFFA6AEC2)
+        val text3 = Color(0xFF6E7789)
+        val scrim = Color(0x9904060E)
         
         object Glass {
-            val clear = Color(0x52171A22)
-            val soft = Color(0x8F171A22)
-            val solid = Color(0xD1171A22)
-            val ultra = Color(0xA3171A22)
+            val clear = Color(0x6B12151F)
+            val soft = Color(0x9E12151F)
+            val solid = Color(0xDB12151F)
+            val ultra = Color(0xB312151F)
         }
     }
     
     object Light {
-        val bg = Color(0xFFF4F6F8)
-        val bg2 = Color(0xFFEDE9E2)
+        val bg = Color(0xFFF6F4EF)
+        val bg2 = Color(0xFFEFEBE2)
         val surface = Color(0xFFFFFFFF)
         val elevated = Color(0xFFFFFFFF)
-        val line = Color(0x14101217)
-        val lineStrong = Color(0x29101217)
-        val text = Color(0xFF101217)
-        val text2 = Color(0xFF5B6273)
-        val text3 = Color(0xFF98907F)
-        val scrim = Color(0x521E1810)
+        val line = Color(0x17181420)
+        val lineStrong = Color(0x2E181420)
+        val text = Color(0xFF16181F)
+        val text2 = Color(0xFF5C6270)
+        val text3 = Color(0xFF8A8FA0)
+        val scrim = Color(0x4D28221A)
         
         object Glass {
             val clear = Color(0x6BFFFFFF)
@@ -52,12 +52,12 @@ object NovaColors {
     }
     
     object Accent {
-        val violet = Color(0xFF6C5CE7)
-        val violet2 = Color(0xFF22D3EE)
+        val violet = Color(0xFF7C6CFF)
+        val violet2 = Color(0xFF5EEAD4)
         val aurora = Color(0xFF4ADE80)
         val aurora2 = Color(0xFFA78BFA)
         val orbit = Color(0xFFF5A524)
-        val liquid = Color(0xFF22D3EE)
+        val liquid = Color(0xFF5EEAD4)
         val liquid2 = Color(0xFFFF6B9A)
         val neon = Color(0xFFFF3D81)
         val neon2 = Color(0xFF00E5FF)

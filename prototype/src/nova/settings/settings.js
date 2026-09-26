@@ -279,9 +279,9 @@ class NovaSettingsManager {
         <div class="nova-settings__group">
           <h4 class="nova-settings__group-title">اللون المميز</h4>
           <div class="nova-settings__chips" data-setting="appearance.accent">
-            <button data-value="violet" class="nova-settings__chip" style="--chip-color: #6C5CE7">بنفسجي</button>
+            <button data-value="violet" class="nova-settings__chip" style="--chip-color: #7C6CFF">إنديجو</button>
             <button data-value="aurora" class="nova-settings__chip" style="--chip-color: #4ADE80">شفق</button>
-            <button data-value="liquid" class="nova-settings__chip" style="--chip-color: #22D3EE">سائل</button>
+            <button data-value="liquid" class="nova-settings__chip" style="--chip-color: #5EEAD4">سائل</button>
             <button data-value="neon" class="nova-settings__chip" style="--chip-color: #FF3D81">نيون</button>
           </div>
         </div>

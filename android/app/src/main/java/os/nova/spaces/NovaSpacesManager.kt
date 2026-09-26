@@ -30,10 +30,10 @@ class NovaSpacesManager {
         // Default spaces
         spaces.addAll(
             listOf(
-                NovaSpace("work", "العمل", "briefcase", "#6C5CE7"),
+                NovaSpace("work", "العمل", "briefcase", "#7C6CFF"),
                 NovaSpace("personal", "شخصي", "person", "#FF6B9A"),
                 NovaSpace("study", "الدراسة", "book", "#4ADE80"),
-                NovaSpace("travel", "السفر", "map", "#22D3EE"),
+                NovaSpace("travel", "السفر", "map", "#5EEAD4"),
                 NovaSpace("gaming", "الألعاب", "game", "#F5A524")
             )
         )
@@ -45,7 +45,7 @@ class NovaSpacesManager {
     
     fun getCurrentSpace(): NovaSpace? = getSpace(currentSpaceId)
     
-    fun createSpace(name: String, icon: String = "layers", color: String = "#6C5CE7"): NovaSpace {
+    fun createSpace(name: String, icon: String = "layers", color: String = "#7C6CFF"): NovaSpace {
         val space = NovaSpace(
             id = "space-${System.currentTimeMillis()}",
             name = name,

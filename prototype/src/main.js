@@ -1330,7 +1330,7 @@ try {
 
 /* ── NOVA OS Complete System Initialization ──────────────── */
 try {
-  console.log(`%c${NovaOS.name} ${NovaOS.version} — ${NovaOS.experience}`, 'color: #6C5CE7; font-weight: 700;');
+  console.log(`%c${NovaOS.name} ${NovaOS.version} — ${NovaOS.experience}`, 'color: #7C6CFF; font-weight: 700;');
   settingsManager.applyAll();
   performanceManager.startMonitoring();
   

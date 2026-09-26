@@ -20,7 +20,7 @@ nova-core
 
 ### 2. Design Tokens (spec #5, #62)
 
-- **Colors**: Dark #06070A / #0E1117 / #F4F6FA / #8B93A1, Light #F4F6F8 / #FFFFFF / #101217
+- **Colors (AURA)**: Dark #08090F / #0D0F17 / #12151F / #F3F5FA / #A6AEC2, Light #F6F4EF / #EFEBE2 / #FFFFFF / #16181F; one accent pair #7C6CFF → #5EEAD4
 - **Typography**: IBM Plex Sans Arabic + Inter, scales: display 40, title 26, heading 19, body 16, label 14, caption 12
 - **Spacing**: 4·8·12·16·20·24·32·48
 - **Radius**: chip 10, card 22, window 28, panel 32, orb 999
@@ -114,7 +114,7 @@ nova-core
 
 ### 15. Dark/Light Mode (spec #45-46)
 
-- Dark: #06070A bg, #0E1117 surface, low transparency glass, #F4F6FA text, #8B93A1 secondary
+- Dark: #08090F ink bg, #0D0F17 second ink, #12151F surface, low transparency glass, #F3F5FA text, #A6AEC2 secondary, depth from a 1px light edge + one accent glow
 - Light: #F4F6F8 bg, #FFFFFF surface, #101217 text, light glass, very soft shadows
 
 ### 16. Motion Themes (spec #47)

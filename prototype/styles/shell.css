@@ -212,7 +212,7 @@ body[data-motion="reduced"] .wallpaper i { animation: none; }
   background: linear-gradient(180deg, rgba(23, 26, 34, .9), rgba(16, 18, 24, .85));
   border: 1px solid rgba(255, 255, 255, .07);
   box-shadow: 0 24px 70px rgba(0, 0, 0, .4);
-  color: #f4f6fa;
+  color: #f3f5fa;
 }
 body[data-mode="light"] .deck {
   background: linear-gradient(180deg, #fff, #f2f4f8);

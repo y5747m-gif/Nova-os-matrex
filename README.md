@@ -67,7 +67,7 @@ Two real paths — full guide in **`docs/06-install.md`**:
 | `.github/workflows/apk.yml` | Builds the APK, runs the quality gates, publishes the release asset. |
 | `.github/workflows/pages.yml` | Deploys `prototype/` to GitHub Pages — the live NOVA URL. |
 | `tools/stage-assets.sh` | Copies the web experience into the APK assets. |
-| `tools/make-icons.sh` | Regenerates every launcher/PWA icon from the icon master. |
+| `tools/make-app-icon.sh` | Draws the AURA orbit mark as vectors and writes every launcher/PWA/adaptive icon (`make-icons.sh` calls it). |
 | `tools/bump-version.mjs` | One command keeps `VERSION`, `version.js` and `sw.js` in sync. |
 
 ## Run the prototype
@@ -204,7 +204,7 @@ Recents: **NOVA CANVAS** · Events: **NOVA FLOW** · Controls: **NOVA CONTROL**.
 NOVA OS 1.0 implements the full spec:
 
 ### Core Engines (per spec #58)
-- **nova-tokens**: Design Tokens — Colors (#06070A/#0E1117/#F4F6FA Dark, #F4F6F8/#FFFFFF/#101217 Light), Typography (IBM Plex Sans Arabic), Spacing, Radius, Elevation, Glass, Motion, Haptics, Sound
+- **nova-tokens**: Design Tokens — AURA colours (#08090F/#0D0F17/#12151F Dark, #F6F4EF/#EFEBE2/#FFFFFF Light), Typography (IBM Plex Sans Arabic), Spacing, Radius, Elevation, Glass, Motion, Haptics, Sound
 - **nova-glass**: Glass Clear/Soft/Solid/Ultra + Adaptive (High→Ultra, Mid→Soft, Low→Solid) + Rendering (clipped, cached, GPU)
 - **nova-shapes**: Orb, Capsule, Prism, Ring, Crystal, Node, Arc, Ribbon — interactive, usage mapping (Wi-Fi Orb, Battery Ring 72%, etc.), Orb states (Idle, Listening, Thinking, Processing, Success, Error)
 - **nova-motion**: Official API open()/close()/morph()/expand()/collapse()/spring()/orbit()/reveal()/transition() + Text Motion (Word Rise, Letter Flow, Blur-to-Clear, Morph Text, Number Morph)

@@ -259,7 +259,7 @@ class MainActivity : ComponentActivity() {
             WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
             web = WebView(this).apply {
                 layoutParams = FrameLayout.LayoutParams(-1, -1)
-                setBackgroundColor(Color.parseColor("#07080B"))
+                setBackgroundColor(Color.parseColor("#08090F"))
                 overScrollMode = View.OVER_SCROLL_NEVER
                 isVerticalScrollBarEnabled = false
                 isHorizontalScrollBarEnabled = false
@@ -327,7 +327,7 @@ class MainActivity : ComponentActivity() {
             orientation = LinearLayout.VERTICAL
             gravity = android.view.Gravity.CENTER
             setPadding(32, 32, 32, 32)
-            setBackgroundColor(Color.parseColor("#07080B"))
+            setBackgroundColor(Color.parseColor("#08090F"))
             addView(TextView(this@MainActivity).apply {
                 setTextColor(Color.WHITE)
                 text = getString(os.nova.launcher.R.string.shell_recovery_message)
@@ -551,7 +551,7 @@ class MainActivity : ComponentActivity() {
         // web-painted scenes (aurora … custom «صورتي») live in the web layer —
         // it owns data-wallpaper, so the shell just stands down
         wallpaperView?.visibility = View.GONE
-        web.setBackgroundColor(Color.parseColor("#07080B"))
+        web.setBackgroundColor(Color.parseColor("#08090F"))
     }
 
     fun pickSystemWallpaper() {

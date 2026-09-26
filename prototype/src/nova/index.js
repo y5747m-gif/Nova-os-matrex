@@ -150,8 +150,8 @@ export const NovaOS = {
 /* ── Initialize all systems ────────────────────────────────── */
 export function initNovaSystems() {
   console.log(`%c${NovaOS.name} %c${NovaOS.version} — Initializing...`, 
-    'color: #6C5CE7; font-weight: 700; font-size: 14px;',
-    'color: #8B93A1; font-size: 12px;'
+    'color: #7C6CFF; font-weight: 700; font-size: 14px;',
+    'color: #A6AEC2; font-size: 12px;'
   );
 
   // Apply settings

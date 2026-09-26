@@ -269,7 +269,7 @@ function mapsContent() {
 function privacyContent(ctx) {
   const rows = [
     ['camera', 'الكاميرا', '4 مرات', '#ff6b9a'],
-    ['maps', 'الموقع', '2 مرات', '#22d3ee'],
+    ['maps', 'الموقع', '2 مرات', '#5eead4'],
     ['mic', 'الميكروفون', 'مرة واحدة', '#f5a524'],
   ];
   return h('div', { class: 'privacy' },
@@ -1447,7 +1447,7 @@ function aiContent(ctx) {
     }).catch(() => {
       wrap.innerHTML = `
         <div style="padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #6C5CE7, #22D3EE);"></div>
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #7C6CFF, #5EEAD4);"></div>
           <h3>NOVA AI</h3>
           <p style="text-align: center; color: var(--nv-text-2);">المساعد الذكي — جزء من النظام<br/>يمكنك الكتابة، التحدث، رفع ملف، طلب Action</p>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1468,11 +1468,11 @@ function controlContent(ctx) {
     h('p', {}, 'مركز التحكم — Glass Canvas مع عناصر تفاعلية'),
     h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '16px' } },
       h('div', { style: { padding: '16px', borderRadius: '16px', background: 'var(--nv-glass)', border: '1px solid var(--nv-line)', textAlign: 'center' } },
-        h('div', { style: { width: '48px', height: '48px', borderRadius: '50%', background: '#6C5CE7', margin: '0 auto 8px', display: 'grid', placeItems: 'center', color: 'white' } }, '◉'),
+        h('div', { style: { width: '48px', height: '48px', borderRadius: '50%', background: '#7C6CFF', margin: '0 auto 8px', display: 'grid', placeItems: 'center', color: 'white' } }, '◉'),
         h('div', { style: { fontSize: '12px' } }, 'Wi-Fi Orb')
       ),
       h('div', { style: { padding: '16px', borderRadius: '16px', background: 'var(--nv-glass)', border: '1px solid var(--nv-line)', textAlign: 'center' } },
-        h('div', { style: { width: '48px', height: '48px', borderRadius: '50%', border: '3px solid #22D3EE', margin: '0 auto 8px', display: 'grid', placeItems: 'center' } }, '72%'),
+        h('div', { style: { width: '48px', height: '48px', borderRadius: '50%', border: '3px solid #5EEAD4', margin: '0 auto 8px', display: 'grid', placeItems: 'center' } }, '72%'),
         h('div', { style: { fontSize: '12px' } }, 'Battery Ring')
       ),
       h('div', { style: { padding: '16px', borderRadius: '16px', background: 'var(--nv-glass)', border: '1px solid var(--nv-line)', textAlign: 'center' } },
@@ -1608,7 +1608,7 @@ export function previewFor(appId) {
     case 'maps':
       return h('div', { style: { flex: '1', borderRadius: '12px', background: 'repeating-linear-gradient(115deg, color-mix(in srgb, var(--nv-text) 7%, transparent) 0 16px, transparent 16px 32px), var(--nv-bg-2)' } });
     case 'weather':
-      return h('div', {}, h('div', { style: { height: '44px', borderRadius: '12px', background: 'linear-gradient(150deg, #22d3ee55, #2563eb44)', marginBottom: '8px' } }),
+      return h('div', {}, h('div', { style: { height: '44px', borderRadius: '12px', background: 'linear-gradient(150deg, #5eead455, #2563eb44)', marginBottom: '8px' } }),
         h('div', { class: 'line', style: { width: '52%' } }), h('div', { class: 'line', style: { width: '74%' } }));
     case 'settings':
       return h('div', {}, ...[72, 58, 80].map((w, i) => h('div', { class: 'line', style: { width: `${w}%`, marginBottom: '7px' }, key: i })),

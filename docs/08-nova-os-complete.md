@@ -215,19 +215,21 @@ Animation: Listening = Orb expands slightly, Thinking = inner light moves, Answe
 
 ## 14. Dark/Light Mode (spec #45-46)
 
-### NOVA Dark
-- Background: #06070A
-- Surface: #0E1117
+### NOVA Dark — AURA
+- Background: #08090F (ink, never pure black)
+- Second ink: #0D0F17 · Surface: #12151F · Elevated: #181C29
 - Glass: low transparency RGBA
-- Text: #F4F6FA
-- Secondary: #8B93A1
-- Accent: customizable
+- Text: #F3F5FA
+- Secondary: #A6AEC2
+- Depth: a 1px light edge (`--nv-edge`) + one accent glow, not black slabs
+- Accent: customizable (default Nova Indigo #7C6CFF → Nova Mint #5EEAD4)
 
-### NOVA Light
-- Background: #F4F6F8
-- Surface: #FFFFFF
-- Text: #101217
-- Glass: light transparency
+### NOVA Light — AURA
+- Background: #F6F4EF (warm paper)
+- Second paper: #EFEBE2 · Surface: #FFFFFF
+- Text: #16181F
+- Secondary: #5C6270
+- Glass: light transparency; icon faces deepen toward ink so white glyphs keep contrast
 - Shadows: very soft
 
 ## 15. Motion Themes (spec #47)

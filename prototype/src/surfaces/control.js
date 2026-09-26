@@ -29,7 +29,7 @@ function readBrightness() {
 export function mountControl(layer, ctx = {}) {
   const NODES = [
     { id: 'wifi',       label: 'Wi-Fi',         icon: 'wifi',      value: 1, binary: true, color: '#7dd3fc', mod: 'conn' },
-    { id: 'bt',         label: 'بلوتوث',        icon: 'bluetooth', value: 0, binary: true, color: '#6c5ce7', mod: 'conn' },
+    { id: 'bt',         label: 'بلوتوث',        icon: 'bluetooth', value: 0, binary: true, color: '#7c6cff', mod: 'conn' },
     { id: 'airplane',   label: 'طيران',         icon: 'airplane',  value: 0, binary: true, color: '#ff6b9a', mod: 'conn' },
     { id: 'dnd',        label: 'عدم الإزعاج',   icon: 'moon',      value: state.dnd ? 1 : 0, binary: true, color: '#a78bfa', mod: 'conn' },
     { id: 'sound',      label: 'الصوت',         icon: 'sound',     value: soundOn() ? 1 : 0, binary: true, color: '#34d399', mod: 'tile' },

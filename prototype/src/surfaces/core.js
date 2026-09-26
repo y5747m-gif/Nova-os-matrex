@@ -131,7 +131,7 @@ export function mountCore(layer, ctx = {}) {
     return {
       html: h('img', { class: 'tile-img', src: realAppIcon(appId), alt: realAppLabel(appId), draggable: 'false' }),
       name: realAppLabel(appId),
-      color: '#6c5ce7',
+      color: '#7c6cff',
     };
   }
 
@@ -438,7 +438,7 @@ export function mountCore(layer, ctx = {}) {
           const pkg = a.p;
           out.push(resultRow(
             h('img', { class: 'core__result-img', src: realAppIcon(pkg), alt: a.l, draggable: 'false' }),
-            a.l, 'تطبيق مثبّت', '#6c5ce7',
+            a.l, 'تطبيق مثبّت', '#7c6cff',
             () => ctx.onOpenApp?.(pkg, el),
           ));
         }
@@ -449,7 +449,7 @@ export function mountCore(layer, ctx = {}) {
           () => { if (c.p) dialNumber(c.p); else ctx.toast?.(c.n); }));
       }
       if (out.length) {
-        out.push(resultRow(icon('apps', 'ico ico--sm'), `«${q}» في كل التطبيقات`, 'فتح الدرج', '#6c5ce7',
+        out.push(resultRow(icon('apps', 'ico ico--sm'), `«${q}» في كل التطبيقات`, 'فتح الدرج', '#7c6cff',
           () => { setView('grid'); buildGrid(q); orbit.classList.add('hidden'); tabs.classList.remove('hidden'); count.classList.remove('hidden'); count.textContent = drawerTitle(); gridWrap.classList.remove('hidden'); results.classList.add('hidden'); }));
       }
     }
@@ -474,7 +474,7 @@ export function mountCore(layer, ctx = {}) {
       }
       out.push(resultRow(icon('files', 'ico ico--sm'), `ملفات فيها «${q}»`, 'الملفات', '#f5a524',
         () => ctx.onOpenApp?.('notes', el)));
-      out.push(resultRow(icon('actions', 'ico ico--sm'), `إجراء: إرسال «${q}»`, 'NOVA INTELLIGENCE', '#6c5ce7',
+      out.push(resultRow(icon('actions', 'ico ico--sm'), `إجراء: إرسال «${q}»`, 'NOVA INTELLIGENCE', '#7c6cff',
         () => ctx.toast?.(`جاهز لتنفيذ: إرسال «${q}»`)));
     }
 
