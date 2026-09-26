@@ -9,7 +9,7 @@ import { h } from './dom.js';
 import { icon } from './icons.js';
 import { NOVA_VERSION } from './version.js';
 
-export const REPO = 'y5747m-gif/Nova-os';
+export const REPO = 'y5747m-gif/Nova-os-matrex';
 export const WORKFLOW_URL = `https://github.com/${REPO}/actions/workflows/apk.yml`;
 export const RELEASES_URL = `https://github.com/${REPO}/releases`;
 export const BUILD_DOC_URL = `https://github.com/${REPO}/blob/main/docs/06-install.md`;
@@ -51,8 +51,12 @@ export async function latestApk({ timeout = 8000 } = {}) {
     if (!res.ok) throw new Error(`GitHub API ${res.status}`);
     const releases = await res.json();
     for (const release of releases) {
-      const asset = (release.assets || []).find((a) => a.name?.endsWith('.apk'));
-      if (asset) {
+      const assets = release.assets || [];
+      // Prefer the stable asset emitted by the workflow, never a diagnostic
+      // or unrelated APK attached to the same release.
+      const asset = assets.find((a) => a.name?.toLowerCase() === 'nova-os-latest.apk')
+        || assets.find((a) => a.name?.toLowerCase().endsWith('.apk'));
+      if (asset?.browser_download_url) {
         return {
           name: asset.name,
           url: asset.browser_download_url,

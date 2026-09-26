@@ -10,7 +10,7 @@ import java.net.URL
  * keeps running the version it has.
  */
 object NovaUpdater {
-    const val REPO = "y5747m-gif/Nova-os"
+    const val REPO = "y5747m-gif/Nova-os-matrex"
 
     data class ApkRelease(val name: String, val url: String, val tag: String, val size: Long)
 

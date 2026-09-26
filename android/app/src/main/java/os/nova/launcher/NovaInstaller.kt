@@ -37,10 +37,17 @@ object NovaInstaller {
                 instanceFollowRedirects = true
                 setRequestProperty("User-Agent", "NOVA-OS/${BuildConfig.VERSION_NAME}")
             }
+            val status = connection.responseCode
+            if (status !in 200..299) {
+                throw java.io.IOException("HTTP $status")
+            }
             connection.inputStream.use { input ->
                 target.outputStream().use { output -> input.copyTo(output, DEFAULT_BUFFER_SIZE) }
             }
             connection.disconnect()
+            if (!target.exists() || target.length() == 0L) {
+                throw java.io.IOException("empty APK")
+            }
 
             NovaNotify.show(
                 ctx, "NOVA OS", "النسخة نزلت — اضغط لتثبيت التحديث",
